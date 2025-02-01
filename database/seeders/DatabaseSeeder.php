@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Discipline;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,6 +33,18 @@ class DatabaseSeeder extends Seeder
             'name' => 'Operator',
             'email' => 'operator@example.com',
             'role' => 'operator',
+        ]);
+
+        Discipline::factory()->create([
+            'name' => 'Puzzle',
+        ]);
+
+        Discipline::factory()->create([
+            'name' => 'Bibel',
+        ]);
+
+        Discipline::factory()->create([
+            'name' => 'Karten',
         ]);
     }
 }
