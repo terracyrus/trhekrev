@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DisciplineController;
+use App\Http\Controllers\DisciplineResultController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +18,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('disciplines', [DisciplineController::class, 'index'])->middleware('auth')->name('disciplines');
+
+Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'show'])->middleware('auth');
+
+Route::get('leaderboard/{discipline:id}', [DisciplineResultController::class, 'showLeaderboard'])->middleware('auth');
 
 Route::get('admin', function () {
     return view('admin');

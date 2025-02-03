@@ -1,0 +1,17 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Alle Posten') }}
+        </h2>
+    </x-slot>
+
+    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="space-y-4 p-2">
+            @foreach ($disciplines as $discipline)
+                <div class="p-6 bg-white shadow-sm sm:rounded-lg">
+                    <a href="/disciplines/{{ $discipline->id }}">{{ $discipline->name }}</a>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</x-app-layout>

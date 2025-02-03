@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Discipline;
 use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
@@ -11,7 +12,9 @@ class DisciplineController extends Controller
      */
     public function index()
     {
-        //
+        $disciplines = Discipline::all();
+
+        return view('disciplines.index', ['disciplines' => $disciplines]);
     }
 
     /**
@@ -33,9 +36,9 @@ class DisciplineController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Discipline $discipline)
     {
-        //
+        return view('disciplines.show', ['discipline' => $discipline]);
     }
 
     /**

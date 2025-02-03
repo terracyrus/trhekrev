@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Discipline;
+use App\Models\DisciplineResult;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -37,14 +38,36 @@ class DatabaseSeeder extends Seeder
 
         Discipline::factory()->create([
             'name' => 'Puzzle',
+            'type' => 'time',
         ]);
 
         Discipline::factory()->create([
             'name' => 'Bibel',
+            'type' => 'time',
         ]);
 
         Discipline::factory()->create([
             'name' => 'Karten',
+            'type' => 'points',
         ]);
+
+        DisciplineResult::factory()->create([
+            'user_id' => 1,
+            'discipline_id' => 3,
+            'points' => 100,
+        ]);
+
+        DisciplineResult::factory()->create([
+            'user_id' => 3,
+            'discipline_id' => 3,
+            'points' => 300,
+        ]);
+
+        DisciplineResult::factory()->create([
+            'user_id' => 2,
+            'discipline_id' => 3,
+            'points' => 200,
+        ]);
+
     }
 }
