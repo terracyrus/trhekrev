@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DisciplineController;
-use App\Http\Controllers\DisciplineResultController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +22,7 @@ Route::get('disciplines', [DisciplineController::class, 'index'])->middleware('a
 
 Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'show'])->middleware('auth');
 
-Route::get('leaderboard/{discipline:id}', [DisciplineResultController::class, 'showLeaderboard'])->middleware('auth');
+Route::get('leaderboard/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->middleware('auth');
 
 Route::get('admin', function () {
     return view('admin');
