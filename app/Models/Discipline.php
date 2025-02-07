@@ -33,16 +33,49 @@ class Discipline extends Model
         $inRanking = $this->results->where('user_id', $user->id)->first();
 
         return $inRanking === null ? 0 : $this->results
-            ->where('points', '>', $this->points($user))
+            ->where('points', $this->sortTableFor('points'), $this->points($user))
             ->count() + 1;
     }
 
     public function getLeaderboard(): \Illuminate\Database\Eloquent\Collection
     {
-        return $this->results()
+        $query = $this->results()
             ->join('users', 'discipline_results.user_id', '=', 'users.id')
-            ->orderBy('discipline_results.points', 'desc')
-            ->select('users.name', 'discipline_results.points')
-            ->get();
+            ->orderBy('discipline_results.points', $this->sortTableFor('db'))
+            ->select('users.name', 'discipline_results.points');
+
+        // Check if it's a time-based discipline
+        if ($this->isTime()) {
+            $query->selectRaw('
+                FLOOR(discipline_results.points / 60) AS minutes,
+                FLOOR(discipline_results.points % 60) AS seconds
+            ');
+        }
+
+        return $query->get()->map(function ($result) {
+            if ($this->isTime()) {
+                $result->formatted_points = sprintf('%02d:%02d', $result->minutes, $result->seconds);
+                unset($result->minutes, $result->seconds); // Clean up unnecessary fields
+            } else {
+                $result->formatted_points = (string) $result->points; // Keep points as-is if not time-based
+            }
+
+            return $result;
+        });
+    }
+
+    public function sortTableFor(string $type = 'db'): string
+    {
+        return match ($type) {
+            'db' => $this->order ? 'desc' : 'asc',
+            'points' => $this->order ? '>' : '<',
+            'text' => $this->order ? 'gross nach klein' : 'klein nach gross',
+            default => '',
+        };
+    }
+
+    public function isTime(): bool
+    {
+        return $this->type === 'time';
     }
 }

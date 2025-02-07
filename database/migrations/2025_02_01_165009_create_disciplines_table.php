@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('disciplines', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type')->default('points');
+            $table->string('name')->unique();
+            $table->string('type', 6)->default('points'); // points, time
+            $table->tinyInteger('order')->default(1); // 0 = down, 1 = up
             $table->timestamps();
         });
     }
