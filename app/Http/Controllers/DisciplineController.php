@@ -67,11 +67,8 @@ class DisciplineController extends Controller
 
     public function showLeaderboard(Request $request, Discipline $discipline)
     {
-        $results = $discipline->getLeaderboard();
-
-        return view('leaderboard', ['results' => $results,
-            'username' => $request->user()->name,
+        return view('leaderboard', ['results' => $discipline->getLeaderboard(),
             'position' => $discipline->rank($request->user()),
-            'disciplineName' => $discipline->name]);
+            'discipline' => $discipline]);
     }
 }

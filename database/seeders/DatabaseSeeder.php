@@ -58,6 +58,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DisciplineResult::factory()->create([
+            'user_id' => 1,
+            'discipline_id' => 2,
+            'points' => 100,
+        ]);
+
+        DisciplineResult::factory()->create([
+            'user_id' => 1,
+            'discipline_id' => 1,
+            'points' => 100,
+        ]);
+
+        DisciplineResult::factory()->create([
             'user_id' => 3,
             'discipline_id' => 3,
             'points' => 300,
