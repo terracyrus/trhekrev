@@ -44,7 +44,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="p-1 text-right">Sortierung {{ $discipline->sortTableFor('text') }}</div>
+            <div class="p-1 text-right">Platzierung von {{ $discipline->sortTableFor('text') }}</div>
         </div>
     </div>
 </x-app-layout>
