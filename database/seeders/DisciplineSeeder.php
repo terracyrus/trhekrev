@@ -41,6 +41,7 @@ class DisciplineSeeder extends Seeder
             Discipline::create([
                 'name' => $timeDiscipline,
                 'type' => 'time',
+                'order' => random_int(0, 1),
             ]);
         }
 
@@ -48,6 +49,7 @@ class DisciplineSeeder extends Seeder
             Discipline::create([
                 'name' => $pointDiscipline,
                 'type' => 'point',
+                'order' => random_int(0, 1),
             ]);
         }
     }
