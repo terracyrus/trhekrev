@@ -28,7 +28,7 @@ class OverallLeaderboardController extends Controller
      */
     public function show()
     {
-        $results = OverallLeaderboard::first()->getOverallLeaderboard();
+        $results = OverallLeaderboard::orderByDesc('total_points')->get();
 
         return view('dashboard', ['results' => $results]);
     }
