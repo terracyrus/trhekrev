@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('anleitung', function () {
+    return redirect()->away('https://www.besj.ch');
+})->name('anleitung');
+
 Route::get('dashboard', [OverallLeaderboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
