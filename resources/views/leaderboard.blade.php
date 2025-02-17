@@ -23,6 +23,7 @@
                         <th class="px-6 py-3">{{ __('Platz') }}</th>
                         <th class="px-6 py-3">{{ __('Spieler') }}</th>
                         <th class="px-6 py-3 text-right">{{ __($discipline->type) }}</th>
+                        <th class="px-6 py-3 text-right">Erhaltene Punkte</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,9 @@
                             <td class="px-6 py-3 text-gray-900">{{ $result->name }}</td>
                             <td class="px-6 py-3 text-right font-semibold text-gray-700">
                                 {{ $result->formatted_points }}
+                            </td>
+                            <td class="px-6 py-3 text-right font-semibold text-gray-700">
+                                {{ $result->score }}
                             </td>
                         </tr>
                     @endforeach

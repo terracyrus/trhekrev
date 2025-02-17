@@ -42,9 +42,9 @@ class Discipline extends Model
         $query = $this->results()
             ->join('users', 'discipline_results.user_id', '=', 'users.id')
             ->orderBy('discipline_results.points', $this->sortTableFor('db'))
-            ->select('users.name', 'discipline_results.points');
+            ->select('users.id', 'users.name', 'discipline_results.points');
 
-        // Check if it's a time-based discipline
+        // Falls Zeit-basiert, zusätzliche Spalten berechnen
         if ($this->isTime()) {
             $query->selectRaw('
                 FLOOR(discipline_results.points / 60) AS minutes,
@@ -52,16 +52,36 @@ class Discipline extends Model
             ');
         }
 
-        return $query->get()->map(function ($result) {
+        $results = $query->get();
+
+        // Platzierung hinzufügen
+        $rank = 1;
+        $resultsWithPlacement = $results->map(function ($result) use (&$rank) {
+            $result->placement = $rank++; // Platzierung setzen
+
+            return $result;
+        });
+
+        // Punkte gemäss Platzierung aus der PlacementPoint-Tabelle holen
+        $resultsWithPoints = $resultsWithPlacement->map(function ($result) {
+
+            $placementPoints = PlacementPoints::where('placement_start', '<=', $result->placement)
+                ->where('placement_end', '>=', $result->placement)
+                ->value('points') ?? 0;
+
+            $result->score = $placementPoints; // Punkte hinzufügen
+
             if ($this->isTime()) {
                 $result->formatted_points = sprintf('%02d:%02d', $result->minutes, $result->seconds);
-                unset($result->minutes, $result->seconds); // Clean up unnecessary fields
+                unset($result->minutes, $result->seconds); // Unnötige Felder entfernen
             } else {
-                $result->formatted_points = (string) $result->points; // Keep points as-is if not time-based
+                $result->formatted_points = (string) $result->points; // Falls keine Zeit-Disziplin
             }
 
             return $result;
         });
+
+        return $resultsWithPoints;
     }
 
     public function sortTableFor(string $type = 'db'): string

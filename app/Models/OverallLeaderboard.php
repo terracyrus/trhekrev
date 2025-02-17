@@ -9,19 +9,26 @@ class OverallLeaderboard extends Model
     protected $fillable = ['user_id', 'total_points'];
 
     /**
-     * Aktualisiert die Gesamtpunktzahl aller Benutzer basierend auf den Disziplin-Ergebnissen.
+     * Aktualisiert die Gesamtpunkte für alle Benutzer.
      */
     public static function updateOverallLeaderboard()
     {
-        // Alle Benutzer mit Ergebnissen abrufen
-        $userPoints = DisciplineResult::selectRaw('user_id, SUM(points) as total_points')
-            ->groupBy('user_id')
-            ->get();
+        $users = User::all();
 
-        foreach ($userPoints as $user) {
-            OverallLeaderboard::updateOrCreate(
-                ['user_id' => $user->user_id],
-                ['total_points' => $user->total_points]
+        foreach ($users as $user) {
+            // Alle Ergebnisse des Nutzers abrufen
+            $results = DisciplineResult::where('user_id', $user->id)->get();
+
+            // Falls der Benutzer keine Ergebnisse hat → 0 Punkte
+            if ($results->isEmpty()) {
+                $totalPoints = 0;
+            } else {
+                $totalPoints = $results->sum(fn ($result) => $result->getPointsForOverall());
+            }
+
+            self::updateOrCreate(
+                ['user_id' => $user->id],
+                ['total_points' => $totalPoints]
             );
         }
     }

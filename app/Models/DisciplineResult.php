@@ -10,6 +10,21 @@ class DisciplineResult extends Model
 {
     use HasFactory;
 
+    /**
+     * Get the placement (ranking) of a user in a specific discipline.
+     */
+    public static function getPlacement($userId, $disciplineId)
+    {
+        $rankedUsers = self::where('discipline_id', $disciplineId)
+            ->orderByDesc('points')  // Higher points = better rank
+            ->pluck('user_id')
+            ->toArray();
+
+        $placement = array_search($userId, $rankedUsers);
+
+        return $placement !== false ? $placement + 1 : null; // Return 1-based rank
+    }
+
     public function discipline()
     {
         return $this->belongsTo(Discipline::class);
@@ -23,5 +38,17 @@ class DisciplineResult extends Model
     public function getAllResultsOfDiscipline()
     {
         return $this->where('discipline_id', $this->discipline_id)->get();
+    }
+
+    /**
+     * Gibt die Punkte basierend auf der Platzierung zurück.
+     *
+     * @return int
+     */
+    public function getPointsForOverall()
+    {
+        $placement = $this->getPlacement($this->user_id, $this->discipline_id);
+
+        return PlacementPoints::getPointsForPlacement($placement);
     }
 }
