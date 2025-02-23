@@ -80,7 +80,6 @@ class DisciplineController extends Controller
         // Update result
         $result->points = $points;
 
-        // dd($result, $request->all(), $points);
         $result->save();
 
         return redirect()->route('disciplines.leaderboard', $discipline)->with('success', 'Ergebnis aktualisiert!');
