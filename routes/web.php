@@ -21,12 +21,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('disciplines', [DisciplineController::class, 'index'])->middleware('auth')->name('disciplines');
-
-Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'show'])->middleware('auth');
-
-Route::get('leaderboard/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->middleware('auth');
-
+Route::middleware('auth')->group(function () {
+    Route::get('disciplines', [DisciplineController::class, 'index'])->name('disciplines');
+    Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'show']);
+    Route::get('disciplines/{discipline:id}/edit', [DisciplineController::class, 'edit'])->name('disciplines.edit');
+    Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->name('disciplines.leaderboard');
+    Route::put('disciplines/{discipline:id}', [DisciplineController::class, 'update'])->name('disciplines.update');
+});
 Route::get('admin', function () {
     return view('admin');
 })->middleware(['auth', 'can:admin-access']);

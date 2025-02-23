@@ -10,6 +10,8 @@ class DisciplineResult extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'discipline_id', 'points'];
+
     /**
      * Get the placement (ranking) of a user in a specific discipline.
      */

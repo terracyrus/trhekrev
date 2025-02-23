@@ -8,7 +8,7 @@
         <div class="grid grid-cols-3 gap-3">
             @foreach ($disciplines as $discipline)
                 <div class="bg-white p-6 shadow-sm sm:rounded-lg">
-                    <a href="/leaderboard/{{ $discipline->id }}">{{ $discipline->name }}</a>
+                    <a href="/disciplines/{{ $discipline->id }}">{{ $discipline->name }}</a>
                 </div>
             @endforeach
         </div>
