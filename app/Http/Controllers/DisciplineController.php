@@ -23,7 +23,7 @@ class DisciplineController extends Controller
             $categories = $categories->where('id', $selectedCategory);
         }
 
-        return view('disciplines.index', ['categories' => $categories, 'selectedCategory' => $selectedCategory]);
+        return view('disciplines.index', ['categories' => $categories]);
     }
 
     /**

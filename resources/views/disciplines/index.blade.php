@@ -16,7 +16,7 @@
                 onchange="this.form.submit()"
             >
                 <option value="">Alle Kategorien</option>
-                @foreach ($categories as $category)
+                @foreach (\App\Models\Category::all() as $category)
                     <option
                         value="{{ $category->id }}"
                         {{ request('category_id') == $category->id ? 'selected' : '' }}
@@ -31,7 +31,7 @@
         @foreach ($categories as $category)
             <h2 class="mt-6 text-xl font-semibold text-gray-700">{{ $category->name }}</h2>
 
-            <div class="grid grid-cols-3 gap-3">
+            <div class="grid grid-cols-4 gap-3">
                 @foreach ($category->disciplines as $discipline)
                     <div class="bg-white p-6 shadow-sm sm:rounded-lg">
                         <a href="/disciplines/{{ $discipline->id }}" class="text-blue-600 hover:underline">
