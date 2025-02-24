@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Discipline;
 use App\Models\DisciplineResult;
 use Illuminate\Http\Request;
@@ -11,11 +12,18 @@ class DisciplineController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $disciplines = Discipline::all();
+        $categories = Category::with('disciplines')->get();
 
-        return view('disciplines.index', ['disciplines' => $disciplines]);
+        // Falls eine Kategorie-ID übergeben wird, nur diese Kategorie laden
+        $selectedCategory = $request->input('category_id');
+
+        if ($selectedCategory) {
+            $categories = $categories->where('id', $selectedCategory);
+        }
+
+        return view('disciplines.index', ['categories' => $categories, 'selectedCategory' => $selectedCategory]);
     }
 
     /**
