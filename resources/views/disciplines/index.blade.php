@@ -33,8 +33,10 @@
 
             <div class="grid grid-cols-4 gap-3">
                 @foreach ($category->disciplines as $discipline)
-                    <div class="bg-white p-6 shadow-sm sm:rounded-lg">
-                        <a href="/disciplines/{{ $discipline->id }}" class="text-blue-600 hover:underline">
+                    <div
+                        class="{{ $discipline->completed ? 'bg-green-400' : 'bg-white' }} p-6 shadow-sm sm:rounded-lg"
+                    >
+                        <a href="/disciplines/{{ $discipline->id }}" class="text-black-600 hover:underline">
                             {{ $discipline->name }}
                         </a>
                     </div>

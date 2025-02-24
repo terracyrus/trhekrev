@@ -14,7 +14,12 @@ class DisciplineController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::with('disciplines')->get();
+        $userId = auth()->id(); // Aktuell eingeloggter Benutzer
+        $categories = Category::with(['disciplines' => function ($query) use ($userId) {
+            $query->withExists(['results as completed' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }]);
+        }])->get();
 
         // Falls eine Kategorie-ID übergeben wird, nur diese Kategorie laden
         $selectedCategory = $request->input('category_id');
