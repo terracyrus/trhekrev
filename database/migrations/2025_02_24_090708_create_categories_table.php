@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,18 +9,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('discipline_results', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(\App\Models\Discipline::class)->constrained()->onDelete('cascade');
-            $table->float('points');
+            $table->string('name')->unique();
+            $table->string('abbreviation')->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
+
+        (new CategorySeeder)->run();
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('discipline_results');
+        Schema::dropIfExists('categories');
     }
 };

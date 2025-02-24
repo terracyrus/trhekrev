@@ -9,6 +9,13 @@ class Discipline extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'type', 'order', 'category_id'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function results()
     {
         return $this->hasMany(DisciplineResult::class);

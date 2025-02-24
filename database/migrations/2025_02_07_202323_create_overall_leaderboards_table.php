@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('overall_leaderboards', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
             $table->integer('total_points');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
