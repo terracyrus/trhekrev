@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('name'); // Name des Gamechangers
             $table->integer('min_disciplines'); // Mindestanzahl an Disziplinen für Aktivierung
             $table->text('effect'); // Beschreibung der Auswirkung
-            $table->string('icon')->nullable(); // SVG-Icon als String speichern
+            $table->string('icon', 400)->nullable(); // SVG-Icon als String speichern
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });
