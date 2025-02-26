@@ -45,6 +45,11 @@ class User extends Authenticatable
         return $this->belongsToMany(DisciplineResult::class);
     }
 
+    public function getPlayers(): User
+    {
+        return self::where('role', 'user')->get();
+    }
+
     /**
      * Get the attributes that should be cast.
      *

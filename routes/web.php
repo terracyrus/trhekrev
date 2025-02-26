@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DisciplineController;
+use App\Http\Controllers\FirstLeaderboardController;
 use App\Http\Controllers\OverallLeaderboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->name('disciplines.leaderboard');
     Route::put('disciplines/{discipline:id}', [DisciplineController::class, 'update'])->name('disciplines.update');
 });
+
+Route::get('firstLeaderboard', [FirstLeaderboardController::class, 'index'])->middleware(['auth', 'verified'])->name('first_leaderboard.index');
+
 Route::get('admin', function () {
     return view('admin');
 })->middleware(['auth', 'can:admin-access']);
