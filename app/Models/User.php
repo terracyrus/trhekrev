@@ -50,6 +50,11 @@ class User extends Authenticatable
         return self::where('role', 'user')->get();
     }
 
+    public function completedDisciplines(): int
+    {
+        return DisciplineResult::where('user_id', $this->id)->distinct('discipline_id')->count();
+    }
+
     /**
      * Get the attributes that should be cast.
      *

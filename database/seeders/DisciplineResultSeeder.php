@@ -16,7 +16,7 @@ class DisciplineResultSeeder extends Seeder
     {
 
         $disciplines = Discipline::all();
-        $users = User::all();
+        $users = User::where('role', 'user')->get();
 
         foreach ($disciplines as $discipline) {
             foreach ($users as $user) {

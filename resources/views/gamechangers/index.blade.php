@@ -8,7 +8,6 @@
                     <th class="border p-2">Icon</th>
                     <th class="border p-2">Name</th>
                     <th class="border p-2">Mindestanzahl</th>
-                    <th class="border p-2">Aktion</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,14 +16,6 @@
                         <td class="border p-2">{!! $gamechanger->icon !!}</td>
                         <td class="border p-2">{{ $gamechanger->name }}</td>
                         <td class="border p-2">{{ $gamechanger->min_disciplines }}</td>
-                        <td class="border p-2">
-                            <a
-                                href="{{ route('gamechanger_actions.create', $gamechanger->id) }}"
-                                class="text-blue-500"
-                            >
-                                Anwenden
-                            </a>
-                        </td>
                     </tr>
                 @endforeach
             </tbody>

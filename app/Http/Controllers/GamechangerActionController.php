@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FirstLeaderboard;
 use App\Models\Gamechanger;
 use App\Models\GamechangerAction;
 use App\Models\User;
@@ -17,36 +16,49 @@ class GamechangerActionController extends Controller
     {
         $actions = GamechangerAction::with(['gamechanger', 'requestedBy', 'executedBy', 'targetUser'])->get();
 
-        return view('gamechanger_actions.index', ['actions' => $actions]);
+        return view('audit.index', ['actions' => $actions]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Gamechanger $gamechanger)
+    public function create()
     {
         $users = User::where('role', 'user')->get();
 
-        return view('gamechanger_actions.create', ['gamechanger' => $gamechanger, 'users' => $users]);
+        return view('gamechanger_actions.create', ['users' => $users, 'targets' => $users]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Gamechanger $gamechanger, User $user)
+    public function store(Request $request)
     {
         $request->validate([
-            'target_user' => 'nullable|exists:users,id',
+            'requested_by' => ['required', 'exists:users,id'],
+            'gamechanger_id' => ['required', 'exists:gamechangers,id'],
+            'target_user' => ['nullable', 'exists:users,id'],
         ]);
 
+        $gamechanger = Gamechanger::findOrFail($request->gamechanger_id);
+
+        // Überprüfen, ob der requestende Benutzer die Mindestanzahl an Disziplinen absolviert hat
+        $requestingUser = User::findOrFail($request->requested_by);
+        if ($requestingUser->completedDisciplines() < $gamechanger->min_disciplines) {
+            return back()->withErrors(['requested_by' => 'Der Benutzer hat nicht genügend Disziplinen absolviert.']);
+        }
+
+        // Gamechanger ausfügen
         GamechangerAction::create([
             'gamechanger_id' => $gamechanger->id,
-            'requested_by' => $user->id,
+            'requested_by' => $request->requested_by,
             'executed_by' => auth()->id(), // Operator führt es direkt aus
             'target_user' => $request->target_user,
         ]);
 
-        return redirect()->route('gamechanger_actions.index')->with('success', 'Gamechanger ausgeführt!');
+        $gamechanger->execute($requestingUser, User::find($request->target_user));
+
+        return redirect()->route('audit.index')->with('success', 'Gamechanger ausgeführt!');
     }
 
     /**
@@ -81,35 +93,11 @@ class GamechangerActionController extends Controller
         //
     }
 
-    public function execute(Gamechanger $gamechanger)
+    public function allowedGamechangers(int $userId)
     {
-        switch ($gamechanger->type) {
-            case 'Geschenk!':
-                FirstLeaderboard::where('user_id', $gamechanger->target_user)
-                    ->decrement('points', 5);
-                FirstLeaderboard::where('user_id', $gamechanger->requested_by)
-                    ->increment('points', 5);
-                break;
-            case 'Diebstahl!':
-                FirstLeaderboard::where('user_id', $gamechanger->target_user)
-                    ->decrement('points', 5);
-                FirstLeaderboard::where('user_id', $gamechanger->requested_by)
-                    ->increment('points', 5);
-                break;
-            case 'Gleichstellung!':
-                $points = FirstLeaderboard::where('user_id', $gamechanger->requested_by)->value('points');
-                FirstLeaderboard::where('user_id', $gamechanger->target_user)->update(['points' => $points]);
-                break;
-            case 'Identitätsklau!':
-                $points1 = FirstLeaderboard::where('user_id', $gamechanger->requested_by)->value('points');
-                $points2 = FirstLeaderboard::where('user_id', $gamechanger->target_user)->value('points');
-                FirstLeaderboard::where('user_id', $gamechanger->requested_by)->update(['points' => $points2]);
-                FirstLeaderboard::where('user_id', $gamechanger->target_user)->update(['points' => $points1]);
-                break;
-        }
+        $user = User::findOrFail($userId);
+        $gamechangers = Gamechanger::where('min_disciplines', '<=', $user->completedDisciplines())->get();
 
-        $gamechanger->update(['executed' => true]);
-
-        return redirect()->back()->with('success', 'Gamechanger erfolgreich ausgeführt.');
+        return response()->json($gamechangers);
     }
 }

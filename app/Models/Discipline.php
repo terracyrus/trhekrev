@@ -101,11 +101,6 @@ class Discipline extends Model
         };
     }
 
-    public function userParticipationCount(User $user): int
-    {
-        return DisciplineResult::where('user_id', $user->id)->distinct('discipline_id')->count();
-    }
-
     public function isTime(): bool
     {
         return $this->type === 'time';

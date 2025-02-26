@@ -13,12 +13,12 @@ Route::get('/', function () {
 });
 
 Route::get('anleitung', function () {
-    return redirect()->away('https://www.besj.ch');
+    return redirect()->away('https://besj.ch/besj/ausbildung/teamweekend/jungschi.php');
 })->name('anleitung');
 
 Route::get('dashboard', [OverallLeaderboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'can:admin-access')->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -31,12 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->name('disciplines.leaderboard');
     Route::put('disciplines/{discipline:id}', [DisciplineController::class, 'update'])->name('disciplines.update');
     Route::get('gamechanger', [GamechangerController::class, 'index'])->name('gamechanger.index');
+    Route::get('history', [GamechangerActionController::class, 'index'])->name('audit.index');
 });
 
 Route::middleware('auth', 'can:operator-access')->group(function () {
-    Route::get('gamechangerAction', [GamechangerActionController::class, 'index'])->name('gamechanger_actions.index');
-    Route::get('gamechangerAction/{gamechanger:id}', [GamechangerActionController::class, 'create'])->name('gamechanger_actions.create');
-    Route::post('gamechangerAction/{gamechanger:id}', [GamechangerActionController::class, 'store'])->name('gamechanger_actions.store');
+    Route::get('gamechangerAction', [GamechangerActionController::class, 'create'])->name('gamechanger_actions.create');
+    Route::post('gamechangerAction', [GamechangerActionController::class, 'store'])->name('gamechanger_actions.store');
+    Route::get('gamechanger/allowed/{user:id}', [GamechangerActionController::class, 'allowedGamechangers']);
 });
 
 Route::get('firstLeaderboard', [FirstLeaderboardController::class, 'index'])->middleware(['auth', 'verified'])->name('first_leaderboard.index');
