@@ -19,7 +19,7 @@
 
     <div class="mx-auto max-w-7xl space-y-4 p-2 sm:px-6 lg:px-8">
         <div class="overflow-hidden rounded-lg bg-white shadow-lg">
-            @if ($results->isEmpty())
+            @if ($sortedPlayers->isEmpty())
                 <p class="p-4 text-gray-500">Noch keine Ergebnisse verfügbar.</p>
             @else
                 <table class="w-full border-collapse text-left">
@@ -27,15 +27,21 @@
                         <tr class="bg-gray-800 text-white">
                             <th class="px-6 py-3">{{ __('Platz') }}</th>
                             <th class="px-6 py-3">{{ __('Gruppe') }}</th>
+                            <th class="px-6 py-3">{{ __('Differenz') }}</th>
                             <th class="px-6 py-3 text-right">{{ __('Gesamtpunkte') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($results as $index => $entry)
-                            <tr class="{{ auth()->id() == $entry->user_id ? 'bg-yellow-100 font-bold' : 'bg-white' }}">
+                        @foreach ($sortedPlayers as $index => $entry)
+                            <tr
+                                class="{{ auth()->id() == $entry->user->id ? 'bg-yellow-100 font-bold' : 'bg-white' }}"
+                            >
                                 <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{ $entry->user->name }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $entry->total_points }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $entry->difference }}</td>
+                                <td class="border border-gray-300 px-4 py-2 text-right">
+                                    {{ $entry->first_points }} / {{ $entry->overall_points }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

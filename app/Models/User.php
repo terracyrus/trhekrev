@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -35,6 +36,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function isOperatorOrAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'operator']);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
@@ -43,6 +49,16 @@ class User extends Authenticatable
     public function disciplineResults(): BelongsToMany
     {
         return $this->belongsToMany(DisciplineResult::class);
+    }
+
+    public function overallLeaderboard(): HasOne
+    {
+        return $this->hasOne(OverallLeaderboard::class);
+    }
+
+    public function firstLeaderboard(): HasOne
+    {
+        return $this->hasOne(FirstLeaderboard::class);
     }
 
     public function getPlayers(): User

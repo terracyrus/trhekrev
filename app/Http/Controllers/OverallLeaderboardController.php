@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OverallLeaderboard;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OverallLeaderboardController extends Controller
@@ -28,9 +28,33 @@ class OverallLeaderboardController extends Controller
      */
     public function show()
     {
-        $results = OverallLeaderboard::orderByDesc('total_points')->get();
 
-        return view('dashboard', ['results' => $results]);
+        // Alle Spieler mit Punkten aus beiden Leaderboards holen
+        $players = User::where('role', 'user')
+            ->with(['overallLeaderboard', 'firstLeaderboard'])
+            ->get()
+            ->map(function ($user) {
+                $overallPoints = $user->overallLeaderboard->total_points ?? 0;
+                $firstPoints = $user->firstLeaderboard->points ?? 0;
+                $difference = abs($overallPoints - $firstPoints);
+                $completedDisciplines = $user->completedDisciplines();
+
+                return (object) [
+                    'user' => $user,
+                    'overall_points' => $overallPoints,
+                    'first_points' => $firstPoints,
+                    'difference' => $difference,
+                    'completed_disciplines' => $completedDisciplines,
+                ];
+            });
+
+        // Sortierung: Differenz -> erledigte Disziplinen -> Zeit
+        $sortedPlayers = $players->sortBy([
+            fn ($a, $b) => $a->difference <=> $b->difference,
+            fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
+        ]);
+
+        return view('dashboard', ['sortedPlayers' => $sortedPlayers]);
     }
 
     /**

@@ -37,9 +37,4 @@ class OverallLeaderboard extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function getOverallLeaderboard(): \Illuminate\Database\Eloquent\Collection
-    {
-        return $this->orderBy('points', 'desc')->get();
-    }
 }
