@@ -18,13 +18,13 @@
     @endcan
 
     <div class="mx-auto max-w-7xl space-y-4 p-2 sm:px-6 lg:px-8">
-        <div class="overflow-hidden rounded-lg bg-white shadow-lg">
+        <div class="overflow-hidden overflow-x-auto rounded-lg bg-white shadow-lg">
             @if ($sortedPlayers->isEmpty())
                 <p class="p-4 text-gray-500">Noch keine Ergebnisse verfügbar.</p>
             @else
-                <table class="w-full border-collapse text-left">
+                <table class="min-w-full border-collapse text-left sm:table-auto lg:table-fixed">
                     <thead>
-                        <tr class="bg-gray-800 text-white">
+                        <tr class="overflow-x-auto bg-gray-800 text-white">
                             <th class="px-6 py-3">{{ __('Platz') }}</th>
                             <th class="px-6 py-3">{{ __('Gruppe') }}</th>
                             <th class="px-6 py-3">{{ __('Differenz') }}</th>
