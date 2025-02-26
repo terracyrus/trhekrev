@@ -24,6 +24,18 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('gamechanger.index')" :active="request()->routeIs('gamechanger.index')">
+                        {{ __('Gamechanger') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('audit.index')" :active="request()->routeIs('audit.index')">
+                        {{ __('Historie') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('anleitung')">
                         {{ __('Anleitung') }}
                     </x-nav-link>
@@ -56,8 +68,8 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                        <x-dropdown-link :href="route('anleitung')">
+                            {{ __('Anleitung') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -108,14 +120,6 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="space-y-1 pb-3 pt-2">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('disciplines')" :active="request()->routeIs('disciplines')">
-                {{ __('Disciplines') }}
-            </x-responsive-nav-link>
-
             <x-responsive-nav-link :href="route('anleitung')">
                 {{ __('Anleitung') }}
             </x-responsive-nav-link>
@@ -125,14 +129,9 @@
         <div class="border-t border-gray-200 pb-1 pt-4">
             <div class="px-4">
                 <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -190,8 +189,8 @@
         </a>
 
         <a
-            href="{{ route('profile.edit') }}"
-            class="{{ $currentRoute == 'profile.edit' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
+            href="{{ route('gamechanger.index') }}"
+            class="{{ $currentRoute == 'gamechanger.index' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
         >
             <svg
                 class="h-6 w-6"
@@ -207,12 +206,12 @@
                     d="M12 14l-2-2m0 0l-2 2m2-2V6m0 6h2m4 4l-2-2m0 0l-2 2m2-2V6m0 6h2"
                 ></path>
             </svg>
-            <span class="text-xs">Profil</span>
+            <span class="text-xs">Gamechanger</span>
         </a>
 
         <a
-            href="{{ route('anleitung') }}"
-            class="{{ $currentRoute == 'profile' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
+            href="{{ route('audit.index') }}"
+            class="{{ $currentRoute == 'audit.index' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
         >
             <svg
                 class="h-6 w-6"
@@ -228,7 +227,7 @@
                     d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.804M12 12a4 4 0 100-8 4 4 0 000 8z"
                 ></path>
             </svg>
-            <span class="text-xs">Anleitung</span>
+            <span class="text-xs">History</span>
         </a>
     </div>
 </nav>
