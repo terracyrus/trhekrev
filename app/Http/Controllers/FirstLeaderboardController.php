@@ -14,7 +14,7 @@ class FirstLeaderboardController extends Controller
     {
         $leaderboard = FirstLeaderboard::with('user')->orderByDesc('points')->get();
 
-        return view('first_leaderboard.index', ['leaderboard'->$leaderboard]);
+        return view('first_leaderboard.index', ['leaderboard' => $leaderboard]);
     }
 
     /**
