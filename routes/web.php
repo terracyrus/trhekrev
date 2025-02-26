@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\FirstLeaderboardController;
 use App\Http\Controllers\GamechangerActionController;
@@ -42,8 +43,10 @@ Route::middleware('auth', 'can:operator-access')->group(function () {
 
 Route::get('firstLeaderboard', [FirstLeaderboardController::class, 'index'])->middleware(['auth', 'verified'])->name('first_leaderboard.index');
 
-Route::get('admin', function () {
-    return view('admin');
-})->middleware(['auth', 'can:admin-access']);
+Route::middleware('auth', 'can:admin-access')->group(function () {
+    Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::delete('admin/users/delete-x', [AdminController::class, 'deleteUsers'])->name('admin.users.delete-x');
+    Route::post('admin/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+});
 
 require __DIR__ . '/auth.php';
