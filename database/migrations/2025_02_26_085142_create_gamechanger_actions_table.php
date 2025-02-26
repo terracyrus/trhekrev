@@ -11,11 +11,16 @@ return new class extends Migration
         Schema::create('gamechanger_actions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Gamechanger::class)->constrained()->cascadeOnUpdate()->onDelete('cascade');
-            $table->foreignId('requested_by')->constrained('user_id')->cascadeOnUpdate()->onDelete('cascade'); // Wer hat ihn angefragt?
-            $table->foreignId('executed_by')->constrained('user_id')->cascadeOnUpdate()->onDelete('set null'); // Wer hat ihn ausgeführt?
-            $table->foreignId('target_user')->nullable()->constrained('user_id')->cascadeOnUpdate()->onDelete('set null'); // Optional: Wer wurde getroffen?
+            $table->unsignedBigInteger('requested_by'); // Wer hat ihn angefragt?
+            $table->unsignedBigInteger('executed_by'); // Wer hat ihn ausgeführt?
+            $table->unsignedBigInteger('target_user')->nullable(); // Optional: Wer wurde getroffen?
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
+
+            // set references
+            $table->foreign('requested_by')->references('id')->on('users')->cascadeOnUpdate()->onDelete('cascade');
+            $table->foreign('executed_by')->references('id')->on('users')->cascadeOnUpdate()->onDelete('cascade');
+            $table->foreign('target_user')->references('id')->on('users')->cascadeOnUpdate()->onDelete('set null');
         });
     }
 
