@@ -16,10 +16,10 @@ class NavigationBottomLink extends Component
     public function __construct()
     {
         $this->links = [
-            ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'home'],
-            ['route' => 'disciplines', 'label' => 'Disziplinen', 'icon' => 'menu'],
+            ['route' => 'dashboard', 'label' => 'Übersicht', 'icon' => 'home'],
+            ['route' => 'disciplines', 'label' => 'Disziplinen', 'icon' => 'goals'],
             ['route' => 'gamechanger.index', 'label' => 'Gamechanger', 'icon' => 'switch'],
-            ['route' => 'audit.gamechanger', 'label' => 'History', 'icon' => 'user'],
+            ['route' => 'audit.gamechanger', 'label' => 'History', 'icon' => 'history'],
         ];
     }
 
