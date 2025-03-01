@@ -9,7 +9,7 @@ class Gamechanger extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'min_disciplines', 'effect', 'icon'];
+    protected $fillable = ['name', 'min_disciplines', 'effect', 'icon', 'cost'];
 
     public function actions()
     {
@@ -36,7 +36,7 @@ class Gamechanger extends Model
                 FirstLeaderboard::where('user_id', $target_user->id)->update(['points' => $points]);
                 break;
             case 'Sicherheit!':
-                // t.b.d.
+                // t.b.d. Ist Safe vor Neustart
                 break;
             case 'Identitätsklau!':
                 $points1 = FirstLeaderboard::where('user_id', $request_user->id)->value('points');
