@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('audit.index')" :active="request()->routeIs('audit.index')">
+                    <x-nav-link :href="route('audit.gamechanger')" :active="request()->routeIs('audit.gamechanger')">
                         {{ __('Historie') }}
                     </x-nav-link>
                 </div>
@@ -210,8 +210,8 @@
         </a>
 
         <a
-            href="{{ route('audit.index') }}"
-            class="{{ $currentRoute == 'audit.index' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
+            href="{{ route('audit.gamechanger') }}"
+            class="{{ $currentRoute == 'audit.gamechanger' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
         >
             <svg
                 class="h-6 w-6"

@@ -1,21 +1,22 @@
 <x-app-layout>
-    <div class="mx-auto max-w-7xl rounded-lg bg-white p-6 shadow-lg">
-        <h2 class="mb-4 text-2xl font-semibold">Ausgeführte Gamechanger</h2>
-
-        <table class="w-full border-collapse border border-gray-300">
+    <div class="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-lg">
+        <h2 class="mb-4 text-2xl font-semibold">Audit-Logs</h2>
+        <table class="w-full border-collapse text-left">
             <thead>
-                <tr class="bg-gray-200">
-                    <th class="border p-2">History</th>
+                <tr class="bg-gray-800 text-white">
+                    <th class="px-6 py-3">Datum</th>
+                    <th class="px-6 py-3">Benutzer</th>
+                    <th class="px-6 py-3">Aktion</th>
+                    <th class="px-6 py-3">Beschreibung</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($actions as $action)
-                    <tr class="border">
-                        <td class="border p-2">
-                            {{ $action->gamechanger->name }} wurde auf
-                            {{ optional($action->targetUser)->name ?? '-' }} durch {{ $action->requestedBy->name }}
-                            ausgeführt
-                        </td>
+                @foreach ($logs as $log)
+                    <tr class="border border-gray-300">
+                        <td class="px-4 py-2">{{ $log->created_at }}</td>
+                        <td class="px-4 py-2">{{ $log->user->name }}</td>
+                        <td class="px-4 py-2">{{ $log->action }}</td>
+                        <td class="px-4 py-2">{{ $log->description }}</td>
                     </tr>
                 @endforeach
             </tbody>
