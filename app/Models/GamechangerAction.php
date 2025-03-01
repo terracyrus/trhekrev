@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GamechangerAction extends Model
 {
@@ -16,7 +17,7 @@ class GamechangerAction extends Model
         return $this->belongsTo(Gamechanger::class);
     }
 
-    public function requestedBy()
+    public function requestedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'requested_by');
     }

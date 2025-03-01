@@ -64,19 +64,4 @@ class FirstLeaderboardController extends Controller
     {
         //
     }
-
-    public function reset()
-    {
-        FirstLeaderboard::truncate();
-        $users = User::getPlayers();
-
-        foreach ($users as $user) {
-            FirstLeaderboard::create([
-                'user_id' => $user->id,
-                'points' => rand(10, 100), // Zufällige Initialpunkte
-            ]);
-        }
-
-        return redirect()->route('first_leaderboard.index')->with('success', 'Leaderboard neu generiert.');
-    }
 }

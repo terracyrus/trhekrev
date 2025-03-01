@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -36,6 +37,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public static function getPlayers(): Collection
+    {
+        return self::where('role', UserRole::USER->value)->get();
+    }
 
     public function roleEnum(): UserRole
     {
@@ -70,11 +76,6 @@ class User extends Authenticatable
     public function firstLeaderboard(): HasOne
     {
         return $this->hasOne(FirstLeaderboard::class);
-    }
-
-    public function getPlayers(): User
-    {
-        return self::where('role', 'user')->get();
     }
 
     public function completedDisciplines(): int
