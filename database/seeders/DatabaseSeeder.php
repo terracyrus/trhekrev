@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        // create some default users
+        for ($i = 0; $i < 50; $i++) {
             $user = User::create([
                 'role' => 'user',
                 'name' => 'User_' . $i,

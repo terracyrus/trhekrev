@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Enums\AuditVisibility;
 use App\Models\AuditLog;
 use App\Models\DisciplineResult;
-use Illuminate\Support\Facades\Auth;
 
 class DisciplineResultObserver
 {
@@ -15,7 +14,7 @@ class DisciplineResultObserver
     public function created(DisciplineResult $disciplineResult): void
     {
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => $disciplineResult->user_id,
             'action' => 'Neues Disziplin-Ergebnis',
             'description' => "Ergebnis für Disziplin '{$disciplineResult->discipline->name}' gespeichert.",
             'visibility' => AuditVisibility::USER->value,
@@ -28,7 +27,7 @@ class DisciplineResultObserver
     public function updated(DisciplineResult $disciplineResult): void
     {
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => $disciplineResult->user_id,
             'action' => 'Aktualisiertes Disziplin-Ergebnis',
             'description' => "Ergebnis für Disziplin '{$disciplineResult->discipline->name}' aktualisiert.",
             'visibility' => AuditVisibility::USER->value,
