@@ -12,11 +12,14 @@ class OverallLeaderboard extends Model
     /**
      * Aktualisiert die Gesamtpunkte für alle Benutzer.
      */
-    public static function updateOverallLeaderboard()
+    public static function updateOverallLeaderboard(): void
     {
-        $users = User::all();
+        // Holt alle Benutzer mit mindestens einem Ergebnis in der Disziplinen-Tabelle
+        $eligibleUsers = User::whereHas('disciplineResults')->get()
+            ->filter(fn ($user) => $user->hasCompletedAllCategories());
 
-        foreach ($users as $user) {
+        // Berechnet die Gesamtpunkte für jeden berechtigten Benutzer
+        foreach ($eligibleUsers as $user) {
             // Alle Ergebnisse des Nutzers abrufen
             $results = DisciplineResult::where('user_id', $user->id)->get();
 
@@ -52,6 +55,7 @@ class OverallLeaderboard extends Model
                     'first_points' => $firstPoints,
                     'difference' => $difference,
                     'completed_disciplines' => $completedDisciplines,
+                    'completed_categories' => $user->numberCompletedCategories(),
                 ];
             });
 

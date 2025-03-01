@@ -6,7 +6,7 @@ namespace App\Models;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -63,9 +63,9 @@ class User extends Authenticatable
         return $this->roleEnum()->isAdmin();
     }
 
-    public function disciplineResults(): BelongsToMany
+    public function disciplineResults(): HasMany
     {
-        return $this->belongsToMany(DisciplineResult::class);
+        return $this->hasMany(DisciplineResult::class);
     }
 
     public function overallLeaderboard(): HasOne
@@ -81,6 +81,38 @@ class User extends Authenticatable
     public function completedDisciplines(): int
     {
         return DisciplineResult::where('user_id', $this->id)->distinct('discipline_id')->count();
+    }
+
+    public function hasCompletedAllCategories(): bool
+    {
+        // Anzahl aller existierenden Kategorien
+        $totalCategories = Category::count();
+
+        // Zählt die Kategorien, in denen der Benutzer eine Disziplin abgeschlossen hat
+        $completedCategories = DisciplineResult::where('user_id', $this->id)
+            ->whereHas('discipline') // Ensures only valid disciplines are counted
+            ->with('discipline.category') // Load the related categories
+            ->get()
+            ->pluck('discipline.category_id') // Get all category IDs
+            ->unique() // Remove duplicates
+            ->count(); // Count unique category IDs
+
+        return $completedCategories >= $totalCategories;
+    }
+
+    public function numberCompletedCategories(): int
+    {
+        // Zählt die Kategorien, in denen der Benutzer eine Disziplin abgeschlossen hat
+        $completedCategories = DisciplineResult::where('user_id', $this->id)
+            ->whereHas('discipline') // Ensures only valid disciplines are counted
+            ->with('discipline.category') // Load the related categories
+            ->get()
+            ->pluck('discipline.category_id') // Get all category IDs
+            ->unique() // Remove duplicates
+            ->count(); // Count unique category IDs
+
+        return $completedCategories;
+
     }
 
     /**
