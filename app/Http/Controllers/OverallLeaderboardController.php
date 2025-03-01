@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DisciplineResult;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,10 @@ class OverallLeaderboardController extends Controller
      */
     public function show()
     {
+        // Wenn keine Disziplinen vorhanden sind, wird ein leeres Dashboard angezeigt
+        if (DisciplineResult::count() === 0) {
+            return view('dashboard', ['sortedPlayers' => collect()]);
+        }
 
         // Alle Spieler mit Punkten aus beiden Leaderboards holen
         $players = User::where('role', 'user')
@@ -52,7 +57,7 @@ class OverallLeaderboardController extends Controller
         $sortedPlayers = $players->sortBy([
             fn ($a, $b) => $a->difference <=> $b->difference,
             fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
-        ]);
+        ])->values();
 
         return view('dashboard', ['sortedPlayers' => $sortedPlayers]);
     }
