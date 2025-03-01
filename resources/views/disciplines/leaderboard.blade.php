@@ -41,26 +41,17 @@
         @endif
 
         <div class="overflow-hidden rounded-lg bg-white shadow-lg">
-            <table class="w-full border-collapse text-left">
-                <thead>
-                    <tr class="bg-gray-800 text-white">
-                        <th class="px-6 py-3">{{ __('Platz') }}</th>
-                        <th class="px-6 py-3">{{ __('Spieler') }}</th>
-                        <th class="px-6 py-3 text-right">{{ __($discipline->type) }}</th>
-                        <th class="px-6 py-3 text-right">Erhaltene Punkte</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <x-table>
+                <x-table.head :headers="['Platz', 'Gruppe', $discipline->type, 'Punkte']" />
+                <x-table.body>
                     @foreach ($results as $index => $result)
                         @php
                             $rank = $index + 1;
                             $isCurrentUser = $rank === $position;
                         @endphp
 
-                        <tr
-                            class="{{ $isCurrentUser ? 'bg-blue-200 font-bold' : ($index % 2 === 0 ? 'bg-gray-100' : 'bg-white') }}"
-                        >
-                            <td class="px-6 py-3 font-bold text-gray-700">#{{ $rank }}</td>
+                        <x-table.row :entry="$result" :highlight="$isCurrentUser">
+                            <td class="px-6 py-3 font-bold text-gray-700">{{ $rank }}</td>
                             <td class="px-6 py-3 text-gray-900">{{ $result->name }}</td>
                             <td class="px-6 py-3 text-right font-semibold text-gray-700">
                                 {{ $result->formatted_points }}
@@ -68,10 +59,11 @@
                             <td class="px-6 py-3 text-right font-semibold text-gray-700">
                                 {{ $result->score }}
                             </td>
-                        </tr>
+                        </x-table.row>
                     @endforeach
-                </tbody>
-            </table>
+                </x-table.body>
+            </x-table>
+
             <div class="p-1 text-right">Platzierung von {{ $discipline->sortTableFor('text') }}</div>
         </div>
     </div>

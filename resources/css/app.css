@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table-default th,
+.table-default td {
+    @apply border border-gray-300 px-4 py-2;
+}

@@ -1,24 +1,19 @@
 <x-app-layout>
     <div class="mx-auto max-w-7xl rounded-lg bg-white p-6 shadow-lg">
         <h2 class="mb-4 text-2xl font-semibold">Ausgeführte Gamechanger</h2>
-
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border p-2">History</th>
-                </tr>
-            </thead>
-            <tbody>
+        <x-table>
+            <x-table.head :headers="['History']" />
+            <x-table.body>
                 @foreach ($actions as $action)
-                    <tr class="border">
-                        <td class="border p-2">
+                    <x-table.row :entry="$action" :highlight="Auth::id()">
+                        <td class="border border-gray-300 px-4 py-2">
                             {{ $action->gamechanger->name }} wurde auf
                             {{ optional($action->targetUser)->name ?? '-' }} durch {{ $action->requestedBy->name }}
                             ausgeführt
                         </td>
-                    </tr>
+                    </x-table.row>
                 @endforeach
-            </tbody>
-        </table>
+            </x-table.body>
+        </x-table>
     </div>
 </x-app-layout>

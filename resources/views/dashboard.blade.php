@@ -22,30 +22,21 @@
             @if ($sortedPlayers->isEmpty())
                 <p class="p-4 text-gray-500">Noch keine Ergebnisse verfügbar.</p>
             @else
-                <table class="min-w-full border-collapse text-left sm:table-auto lg:table-fixed">
-                    <thead>
-                        <tr class="overflow-x-auto bg-gray-800 text-white">
-                            <th class="px-6 py-3">{{ __('Platz') }}</th>
-                            <th class="px-6 py-3">{{ __('Gruppe') }}</th>
-                            <th class="px-6 py-3">{{ __('Differenz') }}</th>
-                            <th class="px-6 py-3 text-right">{{ __('Gesamtpunkte') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <x-table>
+                    <x-table.head :headers="['Platz', 'Gruppe', 'Differenz', 'Punkte']" />
+                    <x-table.body>
                         @foreach ($sortedPlayers as $index => $entry)
-                            <tr
-                                class="{{ auth()->id() == $entry->user->id ? 'bg-yellow-100 font-bold' : 'bg-white' }}"
-                            >
+                            <x-table.row :entry="$entry" :highlight="Auth::id()">
                                 <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{ $entry->user->name }}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{ $entry->difference }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-right">
                                     {{ $entry->first_points }} / {{ $entry->overall_points }}
                                 </td>
-                            </tr>
+                            </x-table.row>
                         @endforeach
-                    </tbody>
-                </table>
+                    </x-table.body>
+                </x-table>
             @endif
         </div>
     </div>
