@@ -19,7 +19,7 @@ class AuditLogController extends Controller
 
         if ($user->isAdmin()) {
             $logs = AuditLog::all();
-        } elseif ($user->isOperatorOrAdmin()) {
+        } elseif ($user->isOperator()) {
             $logs = AuditLog::whereIn('visibility', [AuditVisibility::OPERATOR->value, AuditVisibility::USER->value])->get();
         } else {
             $logs = AuditLog::whereIn('visibility', [AuditVisibility::USER->value])->get();

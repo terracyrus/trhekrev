@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -36,14 +37,24 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function isOperatorOrAdmin(): bool
+    public function roleEnum(): UserRole
     {
-        return in_array($this->role, ['admin', 'operator']);
+        return UserRole::from($this->role);
+    }
+
+    public function isUser(): bool
+    {
+        return $this->roleEnum()->isUser();
+    }
+
+    public function isOperator(): bool
+    {
+        return $this->roleEnum()->isOperator();
     }
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->roleEnum()->isAdmin();
     }
 
     public function disciplineResults(): BelongsToMany

@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // add Gates for roles
         Gate::define('admin-access', fn (User $user) => $user->isAdmin());
-        Gate::define('operator-access', fn (User $user) => $user->isOperatorOrAdmin());
+        Gate::define('operator-access', fn (User $user) => $user->isOperator() || $user->isAdmin());
         Gate::define('user', fn (User $user) => $user->role === 'user');
 
         // Add Observers
