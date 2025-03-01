@@ -27,12 +27,10 @@
                     <x-table.body>
                         @foreach ($sortedPlayers as $index => $entry)
                             <x-table.row :entry="$entry" :highlight="Auth::id()">
-                                <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $entry->user->name }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $entry->difference }}</td>
-                                <td class="border border-gray-300 px-4 py-2 text-right">
-                                    {{ $entry->first_points }} / {{ $entry->overall_points }}
-                                </td>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $entry->user->name }}</td>
+                                <td>{{ $entry->difference }}</td>
+                                <td class="text-right">{{ $entry->first_points }} / {{ $entry->overall_points }}</td>
                             </x-table.row>
                         @endforeach
                     </x-table.body>

@@ -6,7 +6,7 @@
             <x-table.body>
                 @foreach ($actions as $action)
                     <x-table.row :entry="$action" :highlight="Auth::id()">
-                        <td class="border border-gray-300 px-4 py-2">
+                        <td>
                             {{ $action->gamechanger->name }} wurde auf
                             {{ optional($action->targetUser)->name ?? '-' }} durch {{ $action->requestedBy->name }}
                             ausgeführt

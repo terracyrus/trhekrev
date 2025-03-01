@@ -30,7 +30,7 @@
 
             <tr class="{{ $highlightClass }}">
                 @foreach ($columns as $colKey)
-                    <td class="border-t border-gray-200 px-4 py-2">
+                    <td>
                         {{ data_get($entry, $colKey) }}
                     </td>
                 @endforeach

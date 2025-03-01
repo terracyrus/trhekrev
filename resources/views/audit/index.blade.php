@@ -6,10 +6,10 @@
             <x-table.body>
                 @foreach ($logs as $log)
                     <x-table.row :entry="$log" class="border border-gray-300">
-                        <td class="px-4 py-2">{{ $log->created_at }}</td>
-                        <td class="px-4 py-2">{{ $log->user->name }}</td>
-                        <td class="px-4 py-2">{{ $log->action }}</td>
-                        <td class="px-4 py-2">{{ $log->description }}</td>
+                        <td>{{ $log->created_at }}</td>
+                        <td>{{ $log->user->name }}</td>
+                        <td>{{ $log->action }}</td>
+                        <td>{{ $log->description }}</td>
                     </x-table.row>
                 @endforeach
             </x-table.body>
