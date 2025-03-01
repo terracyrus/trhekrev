@@ -48,6 +48,7 @@ class OverallLeaderboard extends Model
                 $firstPoints = $user->firstLeaderboard->points ?? 0;
                 $difference = abs($overallPoints - $firstPoints);
                 $completedDisciplines = $user->completedDisciplines();
+                $completedCategories = $user->numberCompletedCategories();
 
                 return (object) [
                     'user' => $user,
@@ -55,17 +56,17 @@ class OverallLeaderboard extends Model
                     'first_points' => $firstPoints,
                     'difference' => $difference,
                     'completed_disciplines' => $completedDisciplines,
-                    'completed_categories' => $user->numberCompletedCategories(),
+                    'completed_categories' => $completedCategories,
                 ];
-            });
+            })
+            ->filter(fn ($player) => $player->completed_categories >= Category::count()) // ❗ Filter out users who haven't completed all categories
+            ->sortBy([
+                fn ($a, $b) => $a->difference <=> $b->difference,
+                fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
+            ])
+            ->values(); // Ensure correct indexes after filtering
 
-        // Sortierung: Differenz -> erledigte Disziplinen -> Zeit
-        $sortedPlayers = $players->sortBy([
-            fn ($a, $b) => $a->difference <=> $b->difference,
-            fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
-        ])->values();
-
-        return $sortedPlayers;
+        return $players;
     }
 
     public function user()
