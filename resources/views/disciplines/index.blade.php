@@ -8,14 +8,14 @@
     <div class="mx-auto max-w-7xl p-2 sm:px-6 lg:px-8">
         <!-- Kategorie-Filter -->
         <form method="GET" action="{{ route('disciplines') }}" class="mb-4">
-            <label for="category" class="block font-semibold text-gray-700">Kategorie auswählen:</label>
+            <label for="category" class="block font-semibold text-gray-700">Bereich auswählen:</label>
             <select
                 id="category"
                 name="category_id"
                 class="mt-1 block w-full rounded-md border border-gray-300 p-2"
                 onchange="this.form.submit()"
             >
-                <option value="">Alle Kategorien</option>
+                <option value="">Alle Bereiche</option>
                 @foreach (\App\Models\Category::all() as $category)
                     <option
                         value="{{ $category->id }}"
@@ -27,7 +27,7 @@
             </select>
         </form>
 
-        <!-- Anzeige der Disziplinen nach Kategorie -->
+        <!-- Anzeige der Disziplinen nach Bereich -->
         @foreach ($categories as $category)
             <h2 class="mt-6 text-xl font-semibold text-gray-700">{{ $category->name }}</h2>
 
