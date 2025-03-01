@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\FirstLeaderboardPoints;
 use App\Models\FirstLeaderboard;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,9 +41,9 @@ class AdminController extends Controller
         if ($validated['role'] === 'user') {
             $fl = Firstleaderboard::create([
                 'user_id' => $user->id,
-                'points' => rand(70, 110),
+                'points' => rand(FirstLeaderboardPoints::MIN->value, FirstLeaderboardPoints::MAX->value),
             ]);
-            $text .= ' Der Benutzer hat ' . $fl->points . ' Punkte erhalten für First_Leaderboard.';
+            $text .= ' Der Benutzer muss ' . $fl->points . ' Punkte erreichen.';
         }
 
         return redirect()->route('admin.index')->with('success', $text);
