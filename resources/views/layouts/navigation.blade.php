@@ -10,36 +10,52 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                <!-- Navigation Links for all Users -->
+                <x-navigation-link webRoute="dashboard">
+                    {{ __('Dashboard') }}
+                </x-navigation-link>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('disciplines')" :active="request()->routeIs('disciplines')">
+                <!-- Navigation Links only for Users -->
+                @if (Auth::user()?->isUser())
+                    <x-navigation-link webRoute="disciplines">
                         {{ __('Posten') }}
-                    </x-nav-link>
-                </div>
+                    </x-navigation-link>
+                @endif
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('gamechanger.index')" :active="request()->routeIs('gamechanger.index')">
-                        {{ __('Gamechanger') }}
-                    </x-nav-link>
-                </div>
+                <x-navigation-link webRoute="gamechanger.index">
+                    {{ __('Gamechanger') }}
+                </x-navigation-link>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('audit.gamechanger')" :active="request()->routeIs('audit.gamechanger')">
-                        {{ __('Historie') }}
-                    </x-nav-link>
-                </div>
+                <!-- Navigation for Operators and Admin -->
+                @if (Auth::user()?->isOperator() || Auth::user()?->isAdmin())
+                    <x-navigation-link webRoute="gamechanger_actions.create">
+                        {{ __('Gamechanger Aktion') }}
+                    </x-navigation-link>
+                @endif
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('anleitung')">
+                <x-navigation-link webRoute="audit.gamechanger">
+                    {{ __('Historie') }}
+                </x-navigation-link>
+
+                <!-- Navigation for Operators and Admin -->
+                @if (Auth::user()?->isOperator() || Auth::user()?->isAdmin())
+                    <x-navigation-link webRoute="audit.index">
+                        {{ __('Audit') }}
+                    </x-navigation-link>
+                @endif
+
+                @if (Auth::user()?->isUser())
+                    <x-navigation-link webRoute="anleitung">
                         {{ __('Anleitung') }}
-                    </x-nav-link>
-                </div>
+                    </x-navigation-link>
+                @endif
+
+                <!-- Navigation only for Admins -->
+                @if (Auth::user()?->isAdmin())
+                    <x-navigation-link webRoute="admin.index">
+                        {{ __('Admin') }}
+                    </x-navigation-link>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -149,85 +165,5 @@
     </div>
 
     <!-- copied from ChatGPT -->
-    @php
-        $currentRoute = Route::currentRouteName();
-    @endphp
-
-    <div class="fixed bottom-0 left-0 flex w-full justify-around border-t bg-white py-2 shadow-lg sm:hidden">
-        <a
-            href="{{ route('dashboard') }}"
-            class="{{ $currentRoute == 'dashboard' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
-        >
-            <svg
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9m0 0l9 9m-9-9v18"></path>
-            </svg>
-            <span class="text-xs">Dashboard</span>
-        </a>
-
-        <a
-            href="{{ route('disciplines') }}"
-            class="{{ str_contains($currentRoute, 'disciplines') ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
-        >
-            <svg
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-            <span class="text-xs">Disziplinen</span>
-        </a>
-
-        <a
-            href="{{ route('gamechanger.index') }}"
-            class="{{ $currentRoute == 'gamechanger.index' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
-        >
-            <svg
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 14l-2-2m0 0l-2 2m2-2V6m0 6h2m4 4l-2-2m0 0l-2 2m2-2V6m0 6h2"
-                ></path>
-            </svg>
-            <span class="text-xs">Gamechanger</span>
-        </a>
-
-        <a
-            href="{{ route('audit.gamechanger') }}"
-            class="{{ $currentRoute == 'audit.gamechanger' ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
-        >
-            <svg
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M5.121 17.804A4 4 0 017 16h10a4 4 0 011.879.804M12 12a4 4 0 100-8 4 4 0 000 8z"
-                ></path>
-            </svg>
-            <span class="text-xs">History</span>
-        </a>
-    </div>
+    <x-navigation-bottom-link />
 </nav>
