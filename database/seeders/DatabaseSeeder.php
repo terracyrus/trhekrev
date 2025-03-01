@@ -14,6 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => 'admin',
+            'role' => 'admin',
+            'id' => 1,
+        ]);
+
+        User::create([
+            'name' => 'Operator',
+            'email' => 'operator@example.com',
+            'role' => 'operator',
+            'password' => 'operator',
+        ]);
+
         // create some default users
         for ($i = 0; $i < 50; $i++) {
             $user = User::create([
@@ -29,18 +44,5 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => 'admin',
-            'role' => 'admin',
-        ]);
-
-        User::create([
-            'name' => 'Operator',
-            'email' => 'operator@example.com',
-            'role' => 'operator',
-            'password' => 'operator',
-        ]);
     }
 }

@@ -17,6 +17,12 @@
             </button>
         </form>
 
+        <form action="{{ route('admin.game.reset') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white">Spiel zurücksetzten</button>
+        </form>
+
         <h2 class="mt-6 text-lg font-semibold">Neuen Benutzer anlegen</h2>
         <form action="{{ route('admin.users.create') }}" method="POST" class="mt-2">
             @csrf

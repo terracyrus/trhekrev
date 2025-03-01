@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\FirstLeaderboardPoints;
 use App\Models\FirstLeaderboard;
 use App\Models\User;
+use Database\Seeders\StartupSeeder;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -20,6 +21,18 @@ class AdminController extends Controller
         $deletedCount = User::where('role', 'user')->delete();
 
         return redirect()->route('admin.index')->with('success', "Alle {$deletedCount} Benutzer wurden gelöscht.");
+    }
+
+    public function resetGame()
+    {
+        // Definiere dein Kriterium (z.B. alle inaktive User löschen)
+        User::where('role', 'user')->delete();
+        User::where('role', 'operator')->delete();
+        FirstLeaderboard::truncate();
+
+        (new StartupSeeder)->run();
+
+        return redirect()->route('admin.index')->with('success', 'Spiel zurückgesetzt.');
     }
 
     public function createUser(Request $request)

@@ -50,6 +50,7 @@ Route::get('firstLeaderboard', [FirstLeaderboardController::class, 'index'])->mi
 Route::middleware('auth', 'can:admin-access')->group(function () {
     Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
     Route::delete('admin/users/delete-x', [AdminController::class, 'deleteUsers'])->name('admin.users.delete-x');
+    Route::delete('admin/game/reset', [AdminController::class, 'resetGame'])->name('admin.game.reset');
     Route::post('admin/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
 });
 
