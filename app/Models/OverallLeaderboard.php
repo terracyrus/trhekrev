@@ -59,8 +59,9 @@ class OverallLeaderboard extends Model
                     'completed_categories' => $completedCategories,
                 ];
             })
-            ->filter(fn ($player) => $player->completed_categories >= Category::count()) // ❗ Filter out users who haven't completed all categories
+            //->filter(fn ($player) => $player->completed_categories >= Category::count()) // ❗ Filter out users who haven't completed all categories
             ->sortBy([
+                fn ($a, $b) => $b->completed_categories <=> $a->completed_categories,
                 fn ($a, $b) => $a->difference <=> $b->difference,
                 fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
             ])

@@ -5,7 +5,11 @@
         <x-table.body>
             @foreach ($sortedPlayers as $index => $entry)
                 <x-table.row :entry="$entry" :highlight="Auth::id()">
-                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        @if ($entry->completed_categories >= App\Models\Category::count())
+                            {{ $index + 1 }}
+                        @endif
+                    </td>
                     <td>{{ $entry->user->name }}</td>
                     <td>{{ $entry->difference }}</td>
                     <td class="text-right">
