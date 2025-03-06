@@ -1,19 +1,15 @@
 <div wire:poll.5s class="rounded-lg bg-white p-4 shadow-lg">
     <h2 class="text-lg font-semibold">Benutzerübersicht</h2>
-    <table class="mt-2 w-full border border-gray-300">
-        <thead class="bg-gray-800 text-white">
-            <tr>
-                <th class="px-4 py-2">Rolle</th>
-                <th class="px-4 py-2 text-right">Anzahl</th>
-            </tr>
-        </thead>
-        <tbody>
+
+    <x-table>
+        <x-table.head :headers="['Rolle', 'Anzahl']" />
+        <x-table.body>
             @foreach ($roles as $role)
-                <tr class="border border-gray-300">
-                    <td class="px-4 py-2">{{ ucfirst(strtolower($role->value)) }}</td>
-                    <td class="px-4 py-2 text-right">{{ $userStats[$role->value] ?? 0 }}</td>
-                </tr>
+                <x-table.row>
+                    <td class="text-left">{{ ucfirst(strtolower($role->value)) }}</td>
+                    <td class="text-right">{{ $userStats[$role->value] ?? 0 }}</td>
+                </x-table.row>
             @endforeach
-        </tbody>
-    </table>
+        </x-table.body>
+    </x-table>
 </div>
