@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-md">
-        <h2 class="text-2xl font-bold text-gray-800">First Leaderboard</h2>
+        <h2 class="text-2xl font-bold text-gray-800">{{ __('Ziel Rangliste') }}</h2>
         <x-table>
             <x-table.head :headers="['Platz', 'Gruppe', 'Punkte']" />
             <x-table.body>
