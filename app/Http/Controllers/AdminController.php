@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Enums\FirstLeaderboardPoints;
+use App\Jobs\ResetUsersJob;
+use App\Models\AuditLog;
+use App\Models\Discipline;
+use App\Models\DisciplineResult;
 use App\Models\FirstLeaderboard;
+use App\Models\GamechangerAction;
+use App\Models\OverallLeaderboard;
 use App\Models\User;
-use Database\Seeders\StartupSeeder;
+use Database\Seeders\DisciplineSeeder;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -29,10 +35,22 @@ class AdminController extends Controller
         User::where('role', 'user')->delete();
         User::where('role', 'operator')->delete();
         FirstLeaderboard::truncate();
+        OverallLeaderboard::truncate();
+        Discipline::truncate();
+        DisciplineResult::truncate();
+        AuditLog::truncate();
+        GamechangerAction::truncate();
 
-        (new StartupSeeder)->run();
+        (new DisciplineSeeder)->run();
 
         return redirect()->route('admin.index')->with('success', 'Spiel zurückgesetzt.');
+    }
+
+    public function setGame()
+    {
+        ResetUsersJob::dispatch(); // Asynchronous execution
+
+        return redirect()->route('admin.index')->with('success', 'User mit Rangliste erstellt als Job erstellt.');
     }
 
     public function createUser(Request $request)

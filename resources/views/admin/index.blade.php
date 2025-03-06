@@ -23,6 +23,13 @@
             <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white">Spiel zurücksetzten</button>
         </form>
 
+        <h2 class="mt-6 text-lg font-semibold">Grupen initialisieren</h2>
+        <form action="{{ route('admin.game.create') }}" method="POST">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white">User initialisieren</button>
+        </form>
+
         <h2 class="mt-6 text-lg font-semibold">Neuen Benutzer anlegen</h2>
         <form action="{{ route('admin.users.create') }}" method="POST" class="mt-2">
             @csrf
@@ -35,5 +42,7 @@
             </select>
             <button type="submit" class="rounded bg-blue-500 px-4 py-2 text-white">Erstellen</button>
         </form>
+
+        @livewire('admin-user-stats')
     </div>
 </x-app-layout>
