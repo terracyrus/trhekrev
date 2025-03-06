@@ -20,7 +20,7 @@ class DisciplineResultSeeder extends Seeder
 
         foreach ($users as $user) {
             // Determine number of disciplines for each user
-            $disciplineCount = $user->id === 1 ? 12 : rand(7, 13);
+            $disciplineCount = $user->id === 1 ? 12 : rand(4, 13);
 
             // Select random unique disciplines for the user
             $selectedDisciplines = $disciplines->random($disciplineCount);
