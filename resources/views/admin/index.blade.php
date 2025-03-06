@@ -20,7 +20,7 @@
         <form action="{{ route('admin.game.reset') }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white">Spiel zurücksetzten</button>
+            <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white">Spiel zurücksetzen</button>
         </form>
 
         <h2 class="mt-6 text-lg font-semibold">Grupen initialisieren</h2>

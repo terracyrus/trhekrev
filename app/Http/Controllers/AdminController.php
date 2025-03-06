@@ -36,10 +36,10 @@ class AdminController extends Controller
         User::where('role', 'operator')->delete();
         FirstLeaderboard::truncate();
         OverallLeaderboard::truncate();
-        Discipline::truncate();
         DisciplineResult::truncate();
-        AuditLog::truncate();
+        Discipline::truncate();
         GamechangerAction::truncate();
+        AuditLog::truncate();
 
         (new DisciplineSeeder)->run();
 
