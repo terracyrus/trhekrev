@@ -51,6 +51,7 @@ class AdminController extends Controller
         Discipline::truncate();
         GamechangerAction::truncate();
         Gamechanger::truncate();
+        DB::table('notifications')->truncate();
 
         if ($connection === 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=1;'); // Re-enable constraints

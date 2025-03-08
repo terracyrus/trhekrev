@@ -4,7 +4,7 @@
             {{ __('Ergebnis bearbeiten') }}
         </h2>
         <p class="mt-1 text-gray-600">
-            Disziplin:
+            Posten:
             <strong>{{ $discipline->name }}</strong>
         </p>
     </x-slot>
@@ -68,7 +68,7 @@
                 href="{{ route('disciplines.leaderboard', $discipline->id) }}"
                 class="mt-4 block text-center text-blue-600"
             >
-                Zurück zur Disziplin
+                Zurück zum Posten
             </a>
         </div>
     </div>

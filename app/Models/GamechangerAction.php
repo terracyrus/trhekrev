@@ -22,12 +22,12 @@ class GamechangerAction extends Model
         return $this->belongsTo(User::class, 'requested_by');
     }
 
-    public function executedBy()
+    public function executedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'executed_by');
     }
 
-    public function targetUser()
+    public function targetUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'target_user');
     }

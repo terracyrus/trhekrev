@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Enums\AuditVisibility;
 use App\Models\AuditLog;
 use App\Models\GamechangerAction;
+use App\Notifications\GamechangerActivated;
 use Illuminate\Support\Facades\Auth;
 
 class GamechangerActionObserver
@@ -14,10 +15,24 @@ class GamechangerActionObserver
      */
     public function created(GamechangerAction $gamechangerAction): void
     {
+        $description = "Gamechanger '{$gamechangerAction->gamechanger->name}' wurde auf ";
+        if ($gamechangerAction->gamechanger->name === 'Neustart!') {
+            $users = $gamechangerAction->requestedBy->getPlayers();
+            foreach ($users as $user) {
+                $user->notify(new GamechangerActivated($gamechangerAction->gamechanger, $gamechangerAction->requestedBy));
+            }
+            $description .= 'alle';
+        } elseif ($gamechangerAction->gamechanger->name === 'Sicherheit!') {
+            $description .= 'auf sich selbst';
+        } elseif ($gamechangerAction->targetUser) {
+            $gamechangerAction->targetUser->notify(new GamechangerActivated($gamechangerAction->gamechanger, $gamechangerAction->requestedBy));
+            $description .= $gamechangerAction->targetUser->name;
+        }
+
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Gamechanger erstellt',
-            'description' => "Gamechanger '{$gamechangerAction->gamechanger->name}' wurde ausgeführt erstellt.",
+            'description' => $description . ' ausgeführt.',
             'visibility' => AuditVisibility::ADMIN->value,
         ]);
     }

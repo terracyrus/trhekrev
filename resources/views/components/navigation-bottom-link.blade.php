@@ -14,7 +14,7 @@
                 class="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="1.5"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
             >
@@ -30,11 +30,11 @@
                         stroke-linejoin="round"
                         d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5"
                     />
-                @elseif ($link['icon'] === 'switch')
+                @elseif ($link['icon'] === 'thunder')
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M12 14l-2-2m0 0l-2 2m2-2V6m0 6h2m4 4l-2-2m0 0l-2 2m2-2V6m0 6h2"
+                        d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
                     ></path>
                 @elseif ($link['icon'] === 'history')
                     <path
