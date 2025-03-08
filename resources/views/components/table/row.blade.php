@@ -9,11 +9,7 @@
         if (is_object($highlight) && $entry && method_exists($entry, 'is') && $entry->is($highlight)) {
             $rowClass = 'bg-yellow-100';
         }
-        if (
-            ! is_object($highlight) &&
-            $entry &&
-            (data_get($entry, 'id') == $highlight || data_get($entry, 'user.id') == $highlight || data_get($entry, 'user_id') == $highlight)
-        ) {
+        if (! is_object($highlight) && $entry && (data_get($entry, 'user.id') == $highlight || data_get($entry, 'user_id') == $highlight)) {
             $rowClass = 'bg-yellow-100';
         }
     }
