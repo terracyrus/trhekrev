@@ -50,7 +50,7 @@
                                 $isCurrentUser = $rank === $position;
                             @endphp
 
-                            <x-table.row :entry="$result" :highlight="$isCurrentUser">
+                            <x-table.row :entry="$result" :highlight="Auth::user()->name">
                                 <td class="px-6 py-3 font-bold text-gray-700">{{ $rank }}</td>
                                 <td class="px-6 py-3 text-gray-900">{{ $result->name }}</td>
                                 <td class="px-6 py-3 text-right font-semibold text-gray-700">
