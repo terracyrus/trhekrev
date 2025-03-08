@@ -41,6 +41,15 @@ class GamechangerActionController extends Controller
             'count' => ['nullable', 'integer', 'min:1'],
         ]);
 
+        $targetUser = $request->target_user ? User::find($request->target_user) : null;
+
+        // Check if the target user is immune
+        if ($targetUser && $targetUser->isImmune()) {
+            return back()
+                ->withInput()
+                ->withErrors(['target_user' => 'Dieser Benutzer ist aktuell immun gegen Gamechanger.']);
+        }
+
         $gamechanger = Gamechanger::findOrFail($request->gamechanger_id);
 
         // Ensure the count does not exceed the maximum allowed executions

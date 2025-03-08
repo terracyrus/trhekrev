@@ -32,6 +32,7 @@
 
             <!-- Page Content -->
             <main>
+                @livewire('user-immunity')
                 {{ $slot }}
                 @livewireScripts
             </main>

@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'immunity_until',
     ];
 
     /**
@@ -115,6 +116,11 @@ class User extends Authenticatable
 
     }
 
+    public function isImmune(): bool
+    {
+        return $this->immunity_until && now()->lt($this->immunity_until);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -125,6 +131,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'immunity_until' => 'datetime',
         ];
     }
 }

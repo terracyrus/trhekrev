@@ -14,7 +14,7 @@
                         <x-table.row :entry="$action" :highlight="Auth::id()">
                             <td>
                                 {{ $action->gamechanger->name }} wurde auf
-                                {{ optional($action->targetUser)->name ?? '-' }} durch
+                                {{ optional($action->targetUser)->name ?? ' alle Gruppen ' }} durch
                                 {{ $action->requestedBy->name }} ausgeführt
                             </td>
                         </x-table.row>

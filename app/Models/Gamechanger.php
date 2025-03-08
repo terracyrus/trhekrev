@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\RemoveImmunity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,7 +37,10 @@ class Gamechanger extends Model
                 FirstLeaderboard::where('user_id', $target_user->id)->update(['points' => $points]);
                 break;
             case 'Sicherheit!':
-                // t.b.d. Ist Safe vor Neustart
+                $request_user->update(['immunity_until' => now()->addMinutes(15)]);
+
+                // Dispatch queue job to remove immunity automatically
+                RemoveImmunity::dispatch($request_user)->delay(now()->addMinutes(15));
                 break;
             case 'Identitätsklau!':
                 $points1 = FirstLeaderboard::where('user_id', $request_user->id)->value('points');

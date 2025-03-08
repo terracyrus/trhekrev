@@ -2,7 +2,18 @@
     <div class="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow-lg">
         <h2 class="mb-4 text-2xl font-semibold">Gamechanger anwenden</h2>
 
-        <form action="{{ route('gamechanger_actions.store') }}" method="POST">
+        @if ($errors->any())
+            <div class="mb-4 rounded bg-red-100 p-3 text-red-700">
+                <strong>Fehler:</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('gamechanger_actions.store') }}" method="POST" id="gamechangerForm">
             @csrf
 
             <!-- Requested User -->
@@ -11,7 +22,7 @@
                 <select name="requested_by" id="requested_by" class="w-full rounded-lg border p-2">
                     <option value="">-- Bitte wählen --</option>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}">
+                        <option value="{{ $user->id }}" {{ old('requested_by') == $user->id ? 'selected' : '' }}>
                             {{ $user->name }} (Disziplinen: {{ $user->completedDisciplines() }})
                         </option>
                     @endforeach
@@ -37,7 +48,7 @@
                     type="number"
                     name="count"
                     id="count"
-                    value="1"
+                    value="{{ old('count', 1) }}"
                     min="1"
                     max="10"
                     class="w-full rounded-lg border p-2"
@@ -50,7 +61,9 @@
                 <select name="target_user" id="target_user" class="w-full rounded-lg border p-2">
                     <option value="">Kein Benutzer</option>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" {{ old('target_user') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -118,7 +131,6 @@
                 countInput.value = 1;
             }
 
-            // Hide target user selection for "Neustart" and "Sicherheit!"
             if (selectedOption.text.includes('Neustart') || selectedOption.text.includes('Sicherheit')) {
                 targetUserWrapper.classList.add('hidden');
                 document.getElementById('target_user').value = '';
@@ -147,23 +159,14 @@
             let targetUser = document.getElementById('target_user').value;
             let submitButton = document.getElementById('submit_button');
 
-            let selectedGamechanger =
-                document.getElementById('gamechanger_id').options[
-                    document.getElementById('gamechanger_id').selectedIndex
-                ].textContent;
-
-            let needsTargetUser = !(
-                selectedGamechanger.includes('Neustart') || selectedGamechanger.includes('Sicherheit')
-            );
-
-            if (requestedUser && gamechanger && (!needsTargetUser || targetUser)) {
+            if (
+                requestedUser &&
+                gamechanger &&
+                (targetUser || document.getElementById('target_user_wrapper').classList.contains('hidden'))
+            ) {
                 submitButton.disabled = false;
-                submitButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white');
             } else {
                 submitButton.disabled = true;
-                submitButton.classList.add('bg-gray-400', 'cursor-not-allowed');
-                submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'text-white');
             }
         }
     </script>

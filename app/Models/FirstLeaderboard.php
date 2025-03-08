@@ -14,14 +14,33 @@ class FirstLeaderboard extends Model
 
     public static function reset(User $request_user): void
     {
-        FirstLeaderboard::truncate();
         $users = $request_user->getPlayers();
 
-        foreach ($users as $user) {
-            FirstLeaderboard::create([
-                'user_id' => $user->id,
-                'points' => rand(FirstLeaderboardPoints::MIN->value, FirstLeaderboardPoints::MAX->value), // Zufällige Initialpunkte
-            ]);
+        // Get immune users
+        $immuneUsers = $users->filter(fn ($user) => $user->isImmune());
+
+        // Get non-immune users and their points
+        $nonImmuneUsers = $users->reject(fn ($user) => $user->isImmune());
+        $nonImmunePoints = $nonImmuneUsers->pluck('firstLeaderboard.points')->shuffle();
+
+        // Shuffle points only among non-immune users
+        $i = 0;
+        foreach ($nonImmuneUsers as $user) {
+            if (isset($nonImmunePoints[$i])) {
+                FirstLeaderboard::updateOrCreate(
+                    ['user_id' => $user->id],
+                    ['points' => $nonImmunePoints[$i]]
+                );
+                $i++;
+            }
+        }
+
+        // Immune users keep their points
+        foreach ($immuneUsers as $user) {
+            FirstLeaderboard::updateOrCreate(
+                ['user_id' => $user->id],
+                ['points' => $user->firstLeaderboard->points ?? FirstLeaderboardPoints::MIN->value]
+            );
         }
     }
 
