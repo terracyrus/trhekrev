@@ -23,13 +23,20 @@
             <button type="submit" class="rounded bg-red-500 px-4 py-2 text-white">Spiel zurücksetzen</button>
         </form>
 
-        <h2 class="mt-6 text-lg font-semibold">Grupen initialisieren</h2>
-        <form action="{{ route('admin.game.create') }}" method="POST">
-            @csrf
-            @method('PUT')
-            <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white">User initialisieren</button>
-        </form>
+        <h2 class="mt-6 text-lg font-semibold">Spielverwaltung</h2>
+        <div class="grid grid-cols-4 gap-4">
+            <form action="{{ route('admin.game.create') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white">Gruppen erstellen</button>
+            </form>
 
+            <form action="{{ route('admin.game.simulate') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white">Spiel simulieren</button>
+            </form>
+        </div>
         <h2 class="mt-6 text-lg font-semibold">Neuen Benutzer anlegen</h2>
         <form action="{{ route('admin.users.create') }}" method="POST" class="mt-2">
             @csrf

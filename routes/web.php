@@ -53,6 +53,7 @@ Route::middleware('auth', 'can:admin-access')->group(function () {
     Route::delete('admin/game/reset', [AdminController::class, 'resetGame'])->name('admin.game.reset');
     Route::post('admin/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::put('admin/game/create', [AdminController::class, 'setGame'])->name('admin.game.create');
+    Route::put('admin/game/simulate', [AdminController::class, 'simulateGame'])->name('admin.game.simulate');
 });
 
 require __DIR__ . '/auth.php';
