@@ -9,7 +9,7 @@ class Gamechanger extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'min_disciplines', 'effect', 'icon', 'cost'];
+    protected $fillable = ['name', 'min_disciplines', 'effect', 'icon', 'cost', 'max_executions'];
 
     public function actions()
     {

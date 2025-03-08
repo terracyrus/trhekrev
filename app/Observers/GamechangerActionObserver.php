@@ -17,7 +17,7 @@ class GamechangerActionObserver
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Gamechanger erstellt',
-            'description' => "Gamechanger '{$gamechangerAction->name}' wurde erstellt.",
+            'description' => "Gamechanger '{$gamechangerAction->gamechanger->name}' wurde ausgeführt erstellt.",
             'visibility' => AuditVisibility::ADMIN->value,
         ]);
     }

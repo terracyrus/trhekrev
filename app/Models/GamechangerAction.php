@@ -12,7 +12,7 @@ class GamechangerAction extends Model
 
     protected $fillable = ['gamechanger_id', 'requested_by', 'executed_by', 'target_user'];
 
-    public function gamechanger()
+    public function gamechanger(): BelongsTo
     {
         return $this->belongsTo(Gamechanger::class);
     }

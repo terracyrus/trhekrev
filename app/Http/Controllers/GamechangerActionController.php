@@ -38,9 +38,14 @@ class GamechangerActionController extends Controller
             'requested_by' => ['required', 'exists:users,id'],
             'gamechanger_id' => ['required', 'exists:gamechangers,id'],
             'target_user' => ['nullable', 'exists:users,id'],
+            'count' => ['nullable', 'integer', 'min:1'],
         ]);
 
         $gamechanger = Gamechanger::findOrFail($request->gamechanger_id);
+
+        // Ensure the count does not exceed the maximum allowed executions
+        $maxExecutions = $gamechanger->max_executions;
+        $count = min($request->count ?? 1, $maxExecutions); // Defaults to 1 if count is not provided
 
         // Überprüfen, ob der requestende Benutzer die Mindestanzahl an Disziplinen absolviert hat
         $requestingUser = User::findOrFail($request->requested_by);
@@ -48,17 +53,19 @@ class GamechangerActionController extends Controller
             return back()->withErrors(['requested_by' => 'Der Benutzer hat nicht genügend Disziplinen absolviert.']);
         }
 
-        // Gamechanger ausfügen
-        GamechangerAction::create([
-            'gamechanger_id' => $gamechanger->id,
-            'requested_by' => $request->requested_by,
-            'executed_by' => auth()->id(), // Operator führt es direkt aus
-            'target_user' => $request->target_user,
-        ]);
+        for ($i = 0; $i < $count; $i++) {
+            GamechangerAction::create([
+                'gamechanger_id' => $gamechanger->id,
+                'requested_by' => $request->requested_by,
+                'executed_by' => auth()->id(), // Operator führt es direkt aus
+                'target_user' => $request->target_user,
+            ]);
 
-        $gamechanger->execute($requestingUser, User::find($request->target_user));
+            // Führe den Gamechanger aus
+            $gamechanger->execute($requestingUser, User::find($request->target_user));
+        }
 
-        return redirect()->route('audit.gamechanger')->with('success', 'Gamechanger ausgeführt!');
+        return redirect()->route('audit.gamechanger')->with('success', 'Gamechanger ' . $gamechanger->name . ' wurde ' . $count . ' erfolgreich ausgeführt!');
     }
 
     /**
