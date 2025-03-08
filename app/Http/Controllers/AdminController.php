@@ -69,14 +69,14 @@ class AdminController extends Controller
     {
         ResetUsersJob::dispatch(); // Asynchronous execution
 
-        return redirect()->route('admin.index')->with('success', 'User mit Rangliste erstellt als Job erstellt.');
+        return redirect()->route('admin.index')->with('success', 'Job gestartet: Gruppen/Benutzer werden initialisiert.');
     }
 
     public function simulateGame()
     {
         SimulateGame::dispatch(); // Asynchronous execution
 
-        return redirect()->route('admin.index')->with('success', 'Spiel wird simuliert.');
+        return redirect()->route('admin.index')->with('success', 'Job gestartet: Spiel wird simuliert.');
     }
 
     public function createUser(Request $request)
