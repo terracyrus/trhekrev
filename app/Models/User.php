@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password',
         'role',
         'immunity_until',
+        'qualified',
     ];
 
     /**
@@ -42,6 +43,37 @@ class User extends Authenticatable
     public static function getPlayers(): Collection
     {
         return self::where('role', UserRole::USER->value)->get();
+    }
+
+    public static function getOverallLeaderboardRanks(): array
+    {
+        $players = User::where('role', 'user')
+            ->with(['overallLeaderboard', 'firstLeaderboard'])
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'overall_points' => $user->overallLeaderboard->total_points ?? 0,
+                    'first_points' => $user->firstLeaderboard->points ?? 0,
+                    'difference' => abs(($user->overallLeaderboard->total_points ?? 0) - ($user->firstLeaderboard->points ?? 0)),
+                    'completed_disciplines' => $user->completedDisciplines(),
+                    'completed_categories' => $user->numberCompletedCategories(),
+                ];
+            })
+            ->sortBy([
+                fn ($a, $b) => $b['completed_categories'] <=> $a['completed_categories'],
+                fn ($a, $b) => $a['difference'] <=> $b['difference'],
+                fn ($a, $b) => $b['completed_disciplines'] <=> $a['completed_disciplines'],
+            ])
+            ->values(); // Reset indexes after sorting
+
+        // Assign ranks efficiently
+        $ranks = [];
+        foreach ($players as $index => $player) {
+            $ranks[$player['id']] = $index + 1; // Rank starts from 1
+        }
+
+        return $ranks;
     }
 
     public function roleEnum(): UserRole
