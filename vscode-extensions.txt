@@ -1,0 +1,14 @@
+Extensions installed on WSL: Ubuntu-24.04:
+amiralizadeh9480.laravel-extra-intellisense
+bmewburn.vscode-intelephense-client
+calebporzio.better-phpunit
+codeium.codeium
+damms005.devdb
+eamodio.gitlens
+github.copilot
+github.copilot-chat
+github.vscode-github-actions
+ms-azuretools.vscode-docker
+mtxr.sqltools
+mtxr.sqltools-driver-sqlite
+onecentlin.laravel-blade

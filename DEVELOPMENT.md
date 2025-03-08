@@ -6,6 +6,7 @@
 - `sudo snap install dbeaver-ce`
 - `composer require livewire/livewire`
 - SVG from https://heroicons.com/outline
+- See `vscode-extensions.txt` for all the VSCode extensions (could be installed wit `cat vscode-extensions.txt | xargs -L 1 code --install-extension`)
 
 # Documentaion
 
