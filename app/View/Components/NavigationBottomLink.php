@@ -19,7 +19,7 @@ class NavigationBottomLink extends Component
             ['route' => 'dashboard', 'label' => 'Übersicht', 'icon' => 'home'],
             ['route' => 'disciplines', 'label' => 'Posten', 'icon' => 'goals'],
             ['route' => 'gamechanger.index', 'label' => 'Gamechanger', 'icon' => 'thunder'],
-            ['route' => 'audit.gamechanger', 'label' => 'History', 'icon' => 'history'],
+            ['route' => 'audit.gamechanger', 'label' => 'Benachrichtigung', 'icon' => 'history'],
         ];
     }
 

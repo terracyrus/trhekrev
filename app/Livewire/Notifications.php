@@ -14,19 +14,21 @@ class Notifications extends Component
     {
         $user = Auth::user();
 
-        // 🔹 Get all notifications and split them into unread & read
+        // 🔹 Get unread & read notifications, but do NOT mark them as read yet
         $this->unreadNotifications = $user->unreadNotifications()->orderByDesc('created_at')->get();
         $this->readNotifications = $user->readNotifications()->orderByDesc('created_at')->get();
-
-        // 🔥 Mark all unread notifications as read when the page loads
-        $this->markAllAsRead();
     }
 
     public function markAllAsRead()
     {
-        Auth::user()->unreadNotifications->markAsRead();
-        $this->unreadNotifications = []; // Remove unread from top section
-        $this->readNotifications = Auth::user()->readNotifications()->orderByDesc('created_at')->get();
+        $user = Auth::user();
+
+        // 🔹 Mark all unread notifications as read
+        $user->unreadNotifications->markAsRead();
+
+        // 🔥 Refresh notifications list
+        $this->unreadNotifications = [];
+        $this->readNotifications = $user->readNotifications()->orderByDesc('created_at')->get();
     }
 
     public function render()

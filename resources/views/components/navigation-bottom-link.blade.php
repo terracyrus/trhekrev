@@ -8,7 +8,7 @@
     @foreach ($links as $link)
         <a
             href="{{ route($link['route']) }}"
-            class="{{ str_contains($currentRoute, $link['route']) ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} flex flex-col items-center"
+            class="{{ str_contains($currentRoute, $link['route']) ? 'text-blue-500' : 'text-gray-600 hover:text-blue-500' }} relative flex flex-col items-center"
         >
             <svg
                 class="h-6 w-6"
@@ -35,15 +35,21 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
-                    ></path>
+                    />
                 @elseif ($link['icon'] === 'history')
+                    {{-- 🔔 Notifications Icon --}}
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z"
-                    ></path>
+                        d="M15 17h5l-1.405-1.405A4.978 4.978 0 0 1 18 12.5V10a6 6 0 1 0-12 0v2.5c0 .828-.34 1.58-.595 2.095L4 17h5m6 0a3 3 0 1 1-6 0"
+                    />
                 @endif
             </svg>
+
+            @if ($link['icon'] === 'history')
+                @livewire('notification-badge')
+            @endif
+
             <span class="text-xs">{{ $link['label'] }}</span>
         </a>
     @endforeach
