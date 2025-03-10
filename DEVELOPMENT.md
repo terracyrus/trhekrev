@@ -5,6 +5,7 @@
 - https://mattstauffer.com/blog/how-to-set-up-prettier-on-a-laravel-app-to-lint-tailwind-class-order-and-more/
 - `sudo snap install dbeaver-ce`
 - `composer require livewire/livewire`
+- `sudo apt install python3-locust`
 - SVG from https://heroicons.com/outline
 - See `vscode-extensions.txt` for all the VSCode extensions (could be installed wit `cat vscode-extensions.txt | xargs -L 1 code --install-extension`)
 
