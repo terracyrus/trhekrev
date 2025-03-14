@@ -127,8 +127,8 @@ class DisciplineSeeder extends Seeder
 
         Discipline::create([
             'name' => 'J4',
-            'type' => DisciplineType::TIME->value,
-            'order' => DisciplineType::TIME->getOrder(),
+            'type' => DisciplineType::POINT->value,
+            'order' => DisciplineType::POINT->getOrder(),
             'category_id' => $jungschar->id,
         ]);
 
@@ -172,35 +172,7 @@ class DisciplineSeeder extends Seeder
         ]);
 
         Discipline::create([
-            'name' => 'O2.1',
-            'type' => DisciplineType::TIME->value,
-            'order' => DisciplineType::TIME->getOrder(),
-            'category_id' => $orientierung->id,
-        ]);
-
-        Discipline::create([
-            'name' => 'O3.1',
-            'type' => DisciplineType::TIME->value,
-            'order' => DisciplineType::TIME->getOrder(),
-            'category_id' => $orientierung->id,
-        ]);
-
-        Discipline::create([
             'name' => 'O1.2',
-            'type' => DisciplineType::TIME->value,
-            'order' => DisciplineType::TIME->getOrder(),
-            'category_id' => $orientierung->id,
-        ]);
-
-        Discipline::create([
-            'name' => 'O2.2',
-            'type' => DisciplineType::TIME->value,
-            'order' => DisciplineType::TIME->getOrder(),
-            'category_id' => $orientierung->id,
-        ]);
-
-        Discipline::create([
-            'name' => 'O3.2',
             'type' => DisciplineType::TIME->value,
             'order' => DisciplineType::TIME->getOrder(),
             'category_id' => $orientierung->id,
@@ -214,7 +186,35 @@ class DisciplineSeeder extends Seeder
         ]);
 
         Discipline::create([
+            'name' => 'O2.1',
+            'type' => DisciplineType::TIME->value,
+            'order' => DisciplineType::TIME->getOrder(),
+            'category_id' => $orientierung->id,
+        ]);
+
+        Discipline::create([
+            'name' => 'O2.2',
+            'type' => DisciplineType::TIME->value,
+            'order' => DisciplineType::TIME->getOrder(),
+            'category_id' => $orientierung->id,
+        ]);
+
+        Discipline::create([
             'name' => 'O2.3',
+            'type' => DisciplineType::TIME->value,
+            'order' => DisciplineType::TIME->getOrder(),
+            'category_id' => $orientierung->id,
+        ]);
+
+        Discipline::create([
+            'name' => 'O3.1',
+            'type' => DisciplineType::TIME->value,
+            'order' => DisciplineType::TIME->getOrder(),
+            'category_id' => $orientierung->id,
+        ]);
+
+        Discipline::create([
+            'name' => 'O3.2',
             'type' => DisciplineType::TIME->value,
             'order' => DisciplineType::TIME->getOrder(),
             'category_id' => $orientierung->id,
