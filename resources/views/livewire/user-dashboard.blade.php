@@ -30,7 +30,7 @@
         <!-- Hinweis, dass alle Kategorien abgeschlossen sein müssen -->
         <div class="mb-6 grid grid-cols-1">
             <div class="text-900 mb-6 rounded-lg bg-gray-400 p-4 text-center">
-                Du musst erst in allen 6 Stärnlizacken mindestens einen Posten absolvieren, um in die Bewertung zu
+                Du musst erst in allen 6 Stärnlizacken mindestens einen Posten absolvieren, um in die Rangliste zu
                 kommen!
             </div>
         </div>
@@ -38,26 +38,22 @@
     <!-- 📊 Progress Bars -->
     <div class="mb-6 grid grid-cols-2 gap-4">
         <div>
-            <strong>🏆 Disziplinen:</strong>
+            <strong>🚩 Posten {{ $completedDisciplines }} / {{ $totalDisciplines }}:</strong>
             <div class="mt-2 w-full rounded-lg bg-gray-200">
                 <div
                     class="rounded-lg bg-blue-500 py-2 text-center text-xs leading-none text-white"
                     style="width: {{ ($completedDisciplines / $totalDisciplines) * 100 }}%"
-                >
-                    {{ $completedDisciplines }} / {{ $totalDisciplines }}
-                </div>
+                ></div>
             </div>
         </div>
 
         <div>
-            <strong>📂 Kategorien:</strong>
+            <strong>⭐ Bereiche {{ $completedCategories }} / {{ $totalCategories }}:</strong>
             <div class="mt-2 w-full rounded-lg bg-gray-200">
                 <div
                     class="rounded-lg bg-green-500 py-2 text-center text-xs leading-none text-white"
                     style="width: {{ ($completedCategories / $totalCategories) * 100 }}%"
-                >
-                    {{ $completedCategories }} / {{ $totalCategories }}
-                </div>
+                ></div>
             </div>
         </div>
     </div>
