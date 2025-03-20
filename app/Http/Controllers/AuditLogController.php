@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\AuditVisibility;
 use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,14 +14,22 @@ class AuditLogController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::user()->id);
+        $user = Auth::user();
+        $paginate = 15;
 
+        // Admin sieht alle Logs, Operator sieht Operator/User Logs, User sieht nur seine eigenen
         if ($user->isAdmin()) {
-            $logs = AuditLog::all();
+            $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($paginate);
         } elseif ($user->isOperator()) {
-            $logs = AuditLog::whereIn('visibility', [AuditVisibility::OPERATOR->value, AuditVisibility::USER->value])->get();
+            $logs = AuditLog::with('user')
+                ->whereIn('visibility', ['operator'])
+                ->orderByDesc('created_at')
+                ->paginate($paginate);
         } else {
-            $logs = AuditLog::whereIn('visibility', [AuditVisibility::USER->value])->get();
+            $logs = AuditLog::with('user')
+                ->where('user_id', $user->id)
+                ->orderByDesc('created_at')
+                ->paginate($paginate);
         }
 
         return view('audit.index', ['logs' => $logs]);

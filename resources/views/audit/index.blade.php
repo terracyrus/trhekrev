@@ -21,5 +21,9 @@
                 </x-table.body>
             </x-table>
         </div>
+        <!-- 🔹 Laravel Pagination -->
+        <div class="mt-4">
+            {{ $logs->links() }}
+        </div>
     </div>
 </x-app-layout>
