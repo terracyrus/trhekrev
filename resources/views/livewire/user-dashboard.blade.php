@@ -11,17 +11,29 @@
         <!-- 🏆 Compact Leaderboard Stats -->
         <div class="mb-6 grid grid-cols-3 gap-3 text-center sm:grid-cols-3">
             <div class="rounded-lg bg-yellow-100 p-3 text-yellow-900">
-                <strong>🏅Rang:</strong>
+                <strong>
+                    🏅
+                    <br />
+                    Rang:
+                </strong>
                 <br />
                 {{ $overallRank }}
             </div>
             <div class="rounded-lg bg-blue-100 p-3 text-blue-900">
-                <strong>🎯Zielpunkte:</strong>
+                <strong>
+                    🎯
+                    <br />
+                    Ziel:
+                </strong>
                 <br />
                 {{ $firstLeaderboardPoints }}
             </div>
             <div class="rounded-lg bg-green-100 p-3 text-green-900">
-                <strong>🔥Gesamtpunkte:</strong>
+                <strong>
+                    🔥
+                    <br />
+                    Punkte:
+                </strong>
                 <br />
                 {{ $overallLeaderboardPoints }}
             </div>
@@ -30,8 +42,7 @@
         <!-- Hinweis, dass alle Kategorien abgeschlossen sein müssen -->
         <div class="mb-6 grid grid-cols-1">
             <div class="text-900 mb-6 rounded-lg bg-gray-400 p-4 text-center">
-                Du musst erst in allen 6 Stärnlizacken mindestens einen Posten absolvieren, um in die Rangliste zu
-                kommen!
+                Du musst erst in allen 6 Bereichen mindestens einen Posten absolvieren, um in die Rangliste zu kommen!
             </div>
         </div>
     @endif

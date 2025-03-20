@@ -21,4 +21,8 @@
             @endforeach
         </x-table.body>
     </x-table>
+    <div class="p-1 text-right">Die Tabelle wird alle 30 Sekunden aktualisiert</div>
+    <div class="p-1 text-right">
+        Die Reihenfolge wird definiert durch Differenz der Punkte, dann Anzahl abgeschlossener Posten
+    </div>
 </div>

@@ -23,7 +23,7 @@ class UserQualified extends Notification
     {
         return [
             'title' => '🏆 Du bist jetzt für die Rangliste qualifiziert!',
-            'message' => 'Herzlichen Glückwunsch! Du hast in allen Stärnlizacken mindestens einen Posten absolviert.',
+            'message' => 'Herzlichen Glückwunsch! Du hast in allen Bereichen mindestens einen Posten absolviert.',
             'url' => route('dashboard'),
         ];
     }
