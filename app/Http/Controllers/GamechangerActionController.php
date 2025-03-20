@@ -14,9 +14,7 @@ class GamechangerActionController extends Controller
      */
     public function index()
     {
-        $actions = GamechangerAction::with(['gamechanger', 'requestedBy', 'executedBy', 'targetUser'])->get();
-
-        return view('profile.history', ['actions' => $actions]);
+        return view('audit.index');
     }
 
     /**
@@ -24,7 +22,7 @@ class GamechangerActionController extends Controller
      */
     public function create()
     {
-        $users = User::where('role', 'user')->get();
+        $users = User::where('role', 'user')->orderBy('name')->get();
 
         return view('gamechanger_actions.create', ['users' => $users, 'targets' => $users]);
     }
@@ -74,7 +72,7 @@ class GamechangerActionController extends Controller
             $gamechanger->execute($requestingUser, User::find($request->target_user));
         }
 
-        return redirect()->route('profile.history')->with('success', 'Gamechanger ' . $gamechanger->name . ' wurde ' . $count . ' erfolgreich ausgeführt!');
+        return redirect()->route('audit.index')->with('success', 'Gamechanger ' . $gamechanger->name . ' wurde ' . $count . ' erfolgreich ausgeführt!');
     }
 
     /**
