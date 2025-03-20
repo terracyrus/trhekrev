@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->name('disciplines.leaderboard');
     Route::put('disciplines/{discipline:id}', [DisciplineController::class, 'update'])->name('disciplines.update');
     Route::get('gamechanger', [GamechangerController::class, 'index'])->name('gamechanger.index');
-    Route::get('history', [GamechangerActionController::class, 'index'])->name('audit.gamechanger');
+    Route::get('history', [GamechangerActionController::class, 'index'])->name('profile.history');
     Route::get('history/all', [AuditLogController::class, 'index'])->name('audit.index');
 });
 

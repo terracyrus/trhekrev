@@ -16,7 +16,7 @@ class GamechangerActionController extends Controller
     {
         $actions = GamechangerAction::with(['gamechanger', 'requestedBy', 'executedBy', 'targetUser'])->get();
 
-        return view('audit.gamechanger', ['actions' => $actions]);
+        return view('profile.history', ['actions' => $actions]);
     }
 
     /**
@@ -74,7 +74,7 @@ class GamechangerActionController extends Controller
             $gamechanger->execute($requestingUser, User::find($request->target_user));
         }
 
-        return redirect()->route('audit.gamechanger')->with('success', 'Gamechanger ' . $gamechanger->name . ' wurde ' . $count . ' erfolgreich ausgeführt!');
+        return redirect()->route('profile.history')->with('success', 'Gamechanger ' . $gamechanger->name . ' wurde ' . $count . ' erfolgreich ausgeführt!');
     }
 
     /**

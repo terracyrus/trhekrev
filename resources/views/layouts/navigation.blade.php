@@ -33,7 +33,7 @@
                     </x-navigation-link>
                 @endif
 
-                <x-navigation-link webRoute="audit.gamechanger">
+                <x-navigation-link webRoute="profile.history">
                     {{ __('Historie') }}
                 </x-navigation-link>
 
