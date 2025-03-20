@@ -12,7 +12,10 @@
                 <x-table.body>
                     @foreach ($gamechangers as $gamechanger)
                         <x-table.row :entry="$gamechanger">
-                            <td>{!! $gamechanger->icon !!}{{ $gamechanger->name }}</td>
+                            <td>
+                                <span class="w-20justify-center h-6">{!! $gamechanger->icon !!}</span>
+                                <span class="ml-2">{{ $gamechanger->name }}</span>
+                            </td>
                             <td>{{ $gamechanger->effect }}</td>
                             <td>{{ $gamechanger->cost }}</td>
                             <td>{{ $gamechanger->min_disciplines }}</td>
