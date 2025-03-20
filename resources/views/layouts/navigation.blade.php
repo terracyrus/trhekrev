@@ -33,9 +33,11 @@
                     </x-navigation-link>
                 @endif
 
-                <x-navigation-link webRoute="profile.history">
-                    {{ __('Historie') }}
-                </x-navigation-link>
+                @if (Auth::user()?->isUser() || Auth::user()?->isAdmin())
+                    <x-navigation-link webRoute="profile.history">
+                        {{ __('Historie') }}
+                    </x-navigation-link>
+                @endif
 
                 <!-- Navigation for Operators and Admin -->
                 @if (Auth::user()?->isOperator() || Auth::user()?->isAdmin())

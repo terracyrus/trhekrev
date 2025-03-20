@@ -35,14 +35,15 @@ Route::middleware('auth')->group(function () {
     Route::get('disciplines/{discipline:id}', [DisciplineController::class, 'showLeaderboard'])->name('disciplines.leaderboard');
     Route::put('disciplines/{discipline:id}', [DisciplineController::class, 'update'])->name('disciplines.update');
     Route::get('gamechanger', [GamechangerController::class, 'index'])->name('gamechanger.index');
-    Route::get('history', [GamechangerActionController::class, 'index'])->name('profile.history');
-    Route::get('history/all', [AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('history', [ProfileController::class, 'notifications'])->name('profile.history');
 });
 
 Route::middleware('auth', 'can:operator-access')->group(function () {
     Route::get('gamechangerAction', [GamechangerActionController::class, 'create'])->name('gamechanger_actions.create');
     Route::post('gamechangerAction', [GamechangerActionController::class, 'store'])->name('gamechanger_actions.store');
     Route::get('gamechanger/allowed/{user:id}', [GamechangerActionController::class, 'allowedGamechangers']);
+    Route::get('gamechanger/history', [GamechangerActionController::class, 'index'])->name('gamechangers.history');
+    Route::get('history/all', [AuditLogController::class, 'index'])->name('audit.index');
 });
 
 Route::get('firstLeaderboard', [FirstLeaderboardController::class, 'index'])->middleware(['auth', 'verified'])->name('first_leaderboard.index');
