@@ -63,27 +63,30 @@ class OverallLeaderboard extends Model
                 fn ($a, $b) => $a->difference <=> $b->difference,
                 fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
             ])
-            ->values(); // Indizes nach Sortierung zurücksetzen
+            ->values(); // Stellt sicher, dass die Indizes korrekt sind
 
-        // 📌 Platzierung korrekt berechnen (Platzsprünge bei Punktgleichheit)
-        $previousDifference = null;
-        $currentRank = 0;
-        $realRank = 0;
+        // Platzierung berechnen mit korrekten Sprüngen
+        $rank = 1;
+        $previousPlayer = null;
 
-        return $players->map(function ($player, $index) use (&$previousDifference, &$currentRank, &$realRank) {
-            // Falls Punktdifferenz sich vom vorherigen Ergebnis unterscheidet, erhöhe die reale Platzierung
-            if ($player->difference !== $previousDifference) {
-                $realRank = $index + 1; // Reale Position
-                $currentRank = $realRank; // Setze die aktuelle Platzierung
+        $playersWithRank = $players->map(function ($player, $index) use (&$rank, &$previousPlayer) {
+            if ($previousPlayer &&
+                $previousPlayer->completed_categories === $player->completed_categories &&
+                $previousPlayer->difference === $player->difference &&
+                $previousPlayer->completed_disciplines === $player->completed_disciplines
+            ) {
+                $player->placement = $previousPlayer->placement; // Gleiche Platzierung vergeben
+            } else {
+                $player->placement = $rank; // Neue Platzierung setzen
             }
 
-            // Platzierung setzen
-            $player->placement = $currentRank;
-
-            $previousDifference = $player->difference;
+            $rank++; // Rank nur erhöhen, wenn Platzierung sich ändert
+            $previousPlayer = $player;
 
             return $player;
         });
+
+        return $playersWithRank;
     }
 
     public function user()
