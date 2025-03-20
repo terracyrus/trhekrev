@@ -15,11 +15,11 @@ class GamechangerActionObserver
      */
     public function created(GamechangerAction $gamechangerAction): void
     {
-        $description = "Gamechanger '{$gamechangerAction->gamechanger->name}' wurde auf ";
+        $description = "Gamechanger '{$gamechangerAction->gamechanger->name}' wurde durch Gruppe '{$gamechangerAction->requestedBy->name}' auf ";
         if ($gamechangerAction->gamechanger->name === 'Neustart!') {
             $users = $gamechangerAction->requestedBy->getPlayers();
             foreach ($users as $user) {
-                $user->notify(new GamechangerActivated($gamechangerAction->gamechanger, $gamechangerAction->requestedBy));
+                $user->notify(new GamechangerActivated($gamechangerAction->gamechanger, $gamechangerAction->requestedBy, $user->isImmune()));
             }
             $description .= 'alle';
         } elseif ($gamechangerAction->gamechanger->name === 'Sicherheit!') {
@@ -33,7 +33,7 @@ class GamechangerActionObserver
             'user_id' => Auth::id(),
             'action' => 'Gamechanger erstellt',
             'description' => $description . ' ausgeführt.',
-            'visibility' => AuditVisibility::ADMIN->value,
+            'visibility' => AuditVisibility::OPERATOR->value,
         ]);
     }
 
