@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 class OverallLeaderboard extends Model
 {
@@ -37,7 +36,7 @@ class OverallLeaderboard extends Model
         }
     }
 
-    public static function getOverallLeaderboard(): Collection
+    public static function getOverallLeaderboard(): \Illuminate\Support\Collection
     {
         // Alle Spieler mit Punkten aus beiden Leaderboards holen
         $players = User::where('role', 'user')
@@ -59,15 +58,32 @@ class OverallLeaderboard extends Model
                     'completed_categories' => $completedCategories,
                 ];
             })
-            //->filter(fn ($player) => $player->completed_categories >= Category::count()) // ❗ Filter out users who haven't completed all categories
             ->sortBy([
                 fn ($a, $b) => $b->completed_categories <=> $a->completed_categories,
                 fn ($a, $b) => $a->difference <=> $b->difference,
                 fn ($a, $b) => $b->completed_disciplines <=> $a->completed_disciplines,
             ])
-            ->values(); // Ensure correct indexes after filtering
+            ->values(); // Indizes nach Sortierung zurücksetzen
 
-        return $players;
+        // 📌 Platzierung korrekt berechnen (Platzsprünge bei Punktgleichheit)
+        $previousDifference = null;
+        $currentRank = 0;
+        $realRank = 0;
+
+        return $players->map(function ($player, $index) use (&$previousDifference, &$currentRank, &$realRank) {
+            // Falls Punktdifferenz sich vom vorherigen Ergebnis unterscheidet, erhöhe die reale Platzierung
+            if ($player->difference !== $previousDifference) {
+                $realRank = $index + 1; // Reale Position
+                $currentRank = $realRank; // Setze die aktuelle Platzierung
+            }
+
+            // Platzierung setzen
+            $player->placement = $currentRank;
+
+            $previousDifference = $player->difference;
+
+            return $player;
+        });
     }
 
     public function user()

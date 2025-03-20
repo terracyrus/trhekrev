@@ -45,13 +45,8 @@
                     <x-table.head :headers="['Platz', 'Gruppe', $discipline->type, 'Punkte']" />
                     <x-table.body>
                         @foreach ($results as $index => $result)
-                            @php
-                                $rank = $index + 1;
-                                $isCurrentUser = $rank === $position;
-                            @endphp
-
                             <x-table.row :entry="$result" :highlight="Auth::user()->name">
-                                <td class="px-6 py-3 font-bold text-gray-700">{{ $rank }}</td>
+                                <td class="px-6 py-3 font-bold text-gray-700">{{ $result->placement }}</td>
                                 <td class="px-6 py-3 text-gray-900">{{ $result->name }}</td>
                                 <td class="px-6 py-3 text-right font-semibold text-gray-700">
                                     {{ $result->formatted_points }}

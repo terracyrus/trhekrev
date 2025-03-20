@@ -61,34 +61,38 @@ class Discipline extends Model
 
         $results = $query->get();
 
-        // Platzierung hinzufügen
-        $rank = 1;
-        $resultsWithPlacement = $results->map(function ($result) use (&$rank) {
-            $result->placement = $rank++; // Platzierung setzen
+        // 📌 Platzierung mit Ranks und Punkte-Skipping umsetzen
+        $previousPoints = null;
+        $currentRank = 0;
+        $realRank = 0; // Diese Zahl wird hochgezählt, um Ränge zu überspringen
 
-            return $result;
-        });
-
-        // Punkte gemäss Platzierung aus der PlacementPoint-Tabelle holen
-        $resultsWithPoints = $resultsWithPlacement->map(function ($result) {
-
-            $placementPoints = PlacementPoints::where('placement_start', '<=', $result->placement)
-                ->where('placement_end', '>=', $result->placement)
-                ->value('points') ?? 0;
-
-            $result->score = $placementPoints; // Punkte hinzufügen
-
-            if ($this->isTime()) {
-                $result->formatted_points = sprintf('%02d:%02d', $result->minutes, $result->seconds);
-                unset($result->minutes, $result->seconds); // Unnötige Felder entfernen
-            } else {
-                $result->formatted_points = (string) $result->points; // Falls keine Zeit-Disziplin
+        return $results->map(function ($result, $index) use (&$previousPoints, &$currentRank, &$realRank) {
+            // Falls Punkte sich vom vorherigen Ergebnis unterscheiden, erhöhe die reale Platzierung
+            if ($result->points !== $previousPoints) {
+                $realRank = $index + 1; // Reale Position
+                $currentRank = $realRank; // Setze die aktuelle Platzierung
             }
 
+            // Platzierung setzen
+            $result->placement = $currentRank;
+
+            // Punkte für diese Platzierung aus PlacementPoints holen
+            $result->score = PlacementPoints::where('placement_start', '<=', $currentRank)
+                ->where('placement_end', '>=', $currentRank)
+                ->value('points') ?? 0;
+
+            // Falls Zeit-basiert, formatierte Ausgabe vorbereiten
+            if ($this->isTime()) {
+                $result->formatted_points = sprintf('%02d:%02d', $result->minutes, $result->seconds);
+                unset($result->minutes, $result->seconds);
+            } else {
+                $result->formatted_points = (string) $result->points;
+            }
+
+            $previousPoints = $result->points;
+
             return $result;
         });
-
-        return $resultsWithPoints;
     }
 
     public function sortTableFor(string $type = 'db'): string
