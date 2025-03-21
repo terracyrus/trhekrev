@@ -81,6 +81,11 @@ class User extends Authenticatable
         return UserRole::from($this->role);
     }
 
+    public function isViewer(): bool
+    {
+        return $this->roleEnum()->isViewer();
+    }
+
     public function isUser(): bool
     {
         return $this->roleEnum()->isUser();

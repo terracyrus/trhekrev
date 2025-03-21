@@ -10,10 +10,12 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links for all Users -->
-                <x-navigation-link webRoute="dashboard">
-                    {{ __('Dashboard') }}
-                </x-navigation-link>
+                @if (! Auth::user()?->isViewer())
+                    <!-- Navigation Links for all Users -->
+                    <x-navigation-link webRoute="dashboard">
+                        {{ __('Dashboard') }}
+                    </x-navigation-link>
+                @endif
 
                 <!-- Navigation Links only for Users -->
                 @if (Auth::user()?->isUser())
@@ -22,9 +24,11 @@
                     </x-navigation-link>
                 @endif
 
-                <x-navigation-link webRoute="gamechanger.index">
-                    {{ __('Gamechanger') }}
-                </x-navigation-link>
+                @if (! Auth::user()?->isViewer())
+                    <x-navigation-link webRoute="gamechanger.index">
+                        {{ __('Gamechanger') }}
+                    </x-navigation-link>
+                @endif
 
                 <!-- Navigation for Operators and Admin -->
                 @if (Auth::user()?->isOperator() || Auth::user()?->isAdmin())

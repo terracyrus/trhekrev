@@ -101,5 +101,12 @@ class StartupSeeder extends Seeder
                 'role' => 'operator',
             ]);
         }
+
+        User::create([
+            'name' => 'Viewer',
+            'email' => 'viewer@example',
+            'password' => 'viewer',
+            'role' => 'viewer',
+        ]);
     }
 }
