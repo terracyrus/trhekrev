@@ -18,7 +18,7 @@ class FirstLeaderboardSeeder extends Seeder
         foreach ($users as $user) {
             $data[] = [
                 'user_id' => $user->id,
-                'points' => rand(10, 100),
+                'points' => rand(60, 140),
             ];
         }
 
