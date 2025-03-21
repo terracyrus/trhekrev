@@ -8,7 +8,7 @@
                 @livewire('user-dashboard')
             @endif
 
-            @if ($sortedPlayers->isEmpty())
+            @if ($sortedPlayers->isEmpty() && ! Auth::user()->isViewer())
                 <p class="p-4 text-gray-500">Noch keine Ergebnisse verfügbar.</p>
             @else
                 @livewire('leaderboard-table')

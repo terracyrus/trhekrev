@@ -36,6 +36,7 @@ class AdminController extends Controller
     public function resetGame()
     {
         // Definiere dein Kriterium (z.B. alle inaktive User löschen)
+        User::where('role', 'viewer')->delete();
         User::where('role', 'user')->delete();
         User::where('role', 'operator')->delete();
         FirstLeaderboard::truncate();
