@@ -40,9 +40,18 @@
         </div>
     @else
         <!-- Hinweis, dass alle Kategorien abgeschlossen sein müssen -->
-        <div class="mb-6 grid grid-cols-1">
+        <div class="mb-6 grid grid-cols-1 text-center">
             <div class="text-900 mb-6 rounded-lg bg-gray-400 p-4 text-center">
                 Du musst erst in allen 6 Bereichen mindestens einen Posten absolvieren, um in die Rangliste zu kommen!
+            </div>
+            <div class="rounded-lg bg-blue-100 p-3 text-blue-900">
+                <strong>
+                    🎯
+                    <br />
+                    Zielpunkte:
+                </strong>
+                <br />
+                {{ $firstLeaderboardPoints }}
             </div>
         </div>
     @endif
