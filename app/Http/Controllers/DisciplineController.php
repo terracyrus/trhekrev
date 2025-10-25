@@ -65,7 +65,7 @@ class DisciplineController extends Controller
             ->firstOrNew([
                 'user_id' => auth()->id(),
                 'discipline_id' => $discipline->id,
-                //'points' => 0 // Standardwert, falls kein Eintrag existiert
+                // 'points' => 0 // Standardwert, falls kein Eintrag existiert
             ]);
 
         return view('disciplines.edit', ['discipline' => $discipline, 'result' => $result]);
