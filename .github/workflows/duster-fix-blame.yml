@@ -42,27 +42,26 @@ jobs:
                   commit_message: Ignore Dusting commit in git blame
                   commit_user_name: GitHub Action
                   commit_user_email: actions@github.com
-    deploy:
-        needs: duster
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            - name: Setup SSH
-              uses: webfactory/ssh-agent@v0.7.0
-              with:
-                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: 8.1
-                  tools: composer:v2
-                  coverage: none
-            - name: Require Forge CLI
-              run: composer global require laravel/forge-cli
-            - name: Deploy Site
-              run: |
-                  forge server:switch curved-belgrade
-                  forge deploy trhekrev.bao.ch
-              env:
-                  FORGE_API_TOKEN: ${{ secrets.FORGE_API_TOKEN }}
+   # deploy:
+        # needs: duster
+        # runs-on: ubuntu-latest
+        # steps:
+        #     - name: Checkout code
+        #       uses: actions/checkout@v4
+        #     - name: Setup SSH
+        #       uses: webfactory/ssh-agent@v0.7.0
+        #       with:
+        #           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        #     - name: Setup PHP
+        #       uses: shivammathur/setup-php@v2
+        #       with:
+        #           php-version: 8.1
+        #           tools: composer:v2
+        #           coverage: none
+        #     - name: Require Forge CLI
+        #       run: composer global require laravel/forge-cli
+        #     - name: Deploy Site
+        #       run: |
+        #           forge server:switch curved-belgrade                  
+        #       env:
+        #           FORGE_API_TOKEN: ${{ secrets.FORGE_API_TOKEN }}
